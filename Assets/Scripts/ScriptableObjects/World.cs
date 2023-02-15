@@ -28,8 +28,7 @@ public class World : ScriptableSingleton<World>
             for (int x = 0; x < WorldSize.x; x++)
             {
                 Tiles[x, y] = new Tile();
-                Tiles[x, y].LandHeight = Mathf.RoundToInt(255 * Mathf.PerlinNoise((float)x, (float)y));
-                Debug.Log(Mathf.PerlinNoise(1, 2));
+                Tiles[x, y].LandHeight = Mathf.RoundToInt((float)WorldSize.z * Mathf.PerlinNoise(0.01f * x, 0.01f * y));
                 Tiles[x, y].WaterHeight = 10;
             }
         }

@@ -25,7 +25,7 @@ public class LandRenderer : MonoBehaviour
         {
             for (int y = 0; y < SizeY; y++)
             {
-                texture.SetPixel(x, y, new Color(World.instance.Tiles[x,y].LandHeight/255f, 0, 0, 0));
+                texture.SetPixel(x, y, new Color(World.instance.Tiles[x,y].LandHeight/(float)World.instance.WorldSize.z, 0, 0, 0));
             }
         }
 
