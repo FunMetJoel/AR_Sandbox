@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca31461c025ead84e8699e17b478d595, type: 3}
   m_Name: Settings
   m_EditorClassIdentifier: 
-  doLandChanges: 0
+  doLandChanges: 1
   landMaterial: {fileID: 0}
   waterMaterial: {fileID: 0}
-  doWaterMovement: 0
+  doWaterMovement: 1
   doWaterSources: 0
   doWeather: 0
   doWeatherCycle: 0

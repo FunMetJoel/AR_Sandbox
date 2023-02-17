@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LandRenderer : MonoBehaviour
+public class WaterRenderer : MonoBehaviour
 {
     // Start is called before the first frame update
      void Start()
@@ -25,7 +25,12 @@ public class LandRenderer : MonoBehaviour
         {
             for (int y = 0; y < SizeY; y++)
             {
-                texture.SetPixel(x, y, new Color(World.Instance.Tiles[x,y].LandHeight/(float)World.Instance.WorldSize.z, 0, 0, 0));
+                if(World.Instance.Tiles[x,y].WaterHeight > 0){
+                    texture.SetPixel(x, y, new Color(0, 0, 0, 1));
+                }else{
+                    texture.SetPixel(x, y, new Color(0, 0, 0, 0));
+                }
+                //texture.SetPixel(x, y, new Color(World.Instance.Tiles[x,y].WaterHeight/(float)World.Instance.WorldSize.z, 0, 0, 0));
             }
         }
 

@@ -7,7 +7,9 @@ public class HeightScanner : MonoBehaviour
     [SerializeField]
     private bool UseKinect;
 
-    public float Tseed;
+    [SerializeField]
+    [ConditionalHide("UseKinect", false, true)]
+    private float Tseed;
 
     // Update is called once per frame
     void Update()
@@ -23,24 +25,24 @@ public class HeightScanner : MonoBehaviour
     
     private void ChangeWorldHeight(int[,] newHeight)
     {
-        for (int y = 0; y < World.instance.WorldSize.y; y++)
+        for (int y = 0; y < World.Instance.WorldSize.y; y++)
         {
-            for (int x = 0; x < World.instance.WorldSize.x; x++)
+            for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                World.instance.Tiles[x, y].LandHeight = newHeight[x,y];
+                World.Instance.Tiles[x, y].LandHeight = newHeight[x,y];
             }
         }
     }
 
     private int[,] PerlinNoiseHeight(float seed)
     {
-        int[,] newHeight = new int[World.instance.WorldSize.x,World.instance.WorldSize.y];
+        int[,] newHeight = new int[World.Instance.WorldSize.x,World.Instance.WorldSize.y];
 
-        for (int y = 0; y < World.instance.WorldSize.y; y++)
+        for (int y = 0; y < World.Instance.WorldSize.y; y++)
         {
-            for (int x = 0; x < World.instance.WorldSize.x; x++)
+            for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                newHeight[x, y] = Mathf.RoundToInt((float)World.instance.WorldSize.z * Mathf.PerlinNoise(0.01f * x + seed, 0.01f * y + seed));
+                newHeight[x, y] = Mathf.RoundToInt((float)World.Instance.WorldSize.z * Mathf.PerlinNoise(0.05f * x + seed, 0.05f * y + seed));
             }
         }
 

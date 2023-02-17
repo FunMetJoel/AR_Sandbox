@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "World", menuName = "Scriptable Objects/Globals/World")]
-public class World : ScriptableSingleton<World>
+public class World : SingletonScriptableObject<World>
 {
-    public Vector3Int WorldSize = new Vector3Int(400, 300, 255);
+    public Vector3Int WorldSize = new Vector3Int(40, 30, 255);
     public Tile[,] Tiles;
     [Tooltip("Hoe groot de wereld is in km. x is onder en y is boven")]
     public Vector2 MinMaxScaleKM = new Vector2(-10, 10);
@@ -40,6 +40,8 @@ public class Tile
 {
     public int LandHeight = 0;
     public int WaterHeight = 0;
+    public int IceHeight = 0;
+    public int Humidity = 0;
     public int TreeDensity = 0;
     public Vector4 BiomeData = new Vector4(0, 0, 0, 0);
 
@@ -47,6 +49,11 @@ public class Tile
     public float LuchtTemperatuur = 0;
 
     public int LuchtVochtigheid = 0;
+    
+    public int AbsoluteWaterHeight()
+    {
+        return LandHeight + WaterHeight;
+    }
 
     public int TotalHeight()
     {

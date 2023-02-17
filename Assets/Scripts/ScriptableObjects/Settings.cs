@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEditor;
 
 [CreateAssetMenu(fileName = "Settings", menuName = "Scriptable Objects/Globals/Settings")]
-public class Settings : ScriptableSingleton<Settings>
+public class Settings : SingletonScriptableObject<Settings>
 {
     [Header("General")]
     [Tooltip("If the land should change")]
@@ -20,15 +20,15 @@ public class Settings : ScriptableSingleton<Settings>
     [Header("Water")]
     [Tooltip("Controlles if water moves")]
     public bool doWaterMovement;
-    [ConditionalHide("DoWaterMovement")]
+    [ConditionalHide("doWaterMovement")]
     [Tooltip("Controlles of waterSources give of water")]
     public bool doWaterSources;
     [Tooltip("Controlles of weather is a thing")]
     public bool doWeather;
-    [ConditionalHide("DoWeather")]
+    [ConditionalHide("doWeather")]
     [Tooltip("Controlles of weather automaticly changes")]
     public bool doWeatherCycle;
-    [ConditionalHide("DoWaterMovement", ConditionalSourceField2 = "DoWeather")]
+    [ConditionalHide("doWaterMovement", ConditionalSourceField2 = "doWeather")]
     [Tooltip("Controlles of weather effects water height")]
     public bool wheaterEffectsWater;
 
