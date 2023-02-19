@@ -26,9 +26,9 @@ public class WaterRenderer : MonoBehaviour
             for (int y = 0; y < SizeY; y++)
             {
                 if(World.Instance.Tiles[x,y].WaterHeight > 0){
-                    texture.SetPixel(x, y, new Color(0, 0, 0, 1));
+                    texture.SetPixel(x, y, new Color(World.Instance.Tiles[x,y].WaterHeight/(float)World.Instance.WorldSize.z, 0, 0, 1));
                 }else{
-                    texture.SetPixel(x, y, new Color(0, 0, 0, 0));
+                    texture.SetPixel(x, y, new Color(World.Instance.Tiles[x,y].WaterHeight/(float)World.Instance.WorldSize.z, 0, 0, 0));
                 }
                 //texture.SetPixel(x, y, new Color(World.Instance.Tiles[x,y].WaterHeight/(float)World.Instance.WorldSize.z, 0, 0, 0));
             }

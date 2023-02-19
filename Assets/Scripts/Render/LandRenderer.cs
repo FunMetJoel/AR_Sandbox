@@ -20,6 +20,7 @@ public class LandRenderer : MonoBehaviour
     Texture2D newTexture(int SizeX, int SizeY){
         // Create a new 2x2 texture ARGB32 (32 bit with alpha) and no mipmaps
         Texture2D texture = new Texture2D(SizeX, SizeY, TextureFormat.ARGB32, false);
+        texture.wrapMode = TextureWrapMode.Clamp;
         
         for (int x = 0; x < SizeX; x++)
         {

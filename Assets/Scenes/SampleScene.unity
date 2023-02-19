@@ -657,7 +657,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1800056588
 Transform:
   m_ObjectHideFlags: 0
@@ -685,7 +685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd9cc2438e7343341897d4c7d25767c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FlowSpeed: 1000
+  FlowSpeed: 100
   DrainWater: 0
 --- !u!1 &1986968837
 GameObject:

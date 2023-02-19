@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab9102a5322d26847b96e0c078705679, type: 3}
   m_Name: World
   m_EditorClassIdentifier: 
-  WorldSize: {x: 40, y: 30, z: 255}
+  WorldSize: {x: 100, y: 75, z: 255}
   MinMaxScaleKM: {x: -10, y: 10}
   DayTime: 0
   WaterSources: []
