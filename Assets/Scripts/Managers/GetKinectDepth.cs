@@ -37,25 +37,22 @@ public class GetKinectDepth : MonoBehaviour
     // Kinect
     private KinectSensor mSensor = null;
     private CoordinateMapper mMapper = null;
+    private Camera mCamera = null;
 
     private readonly Vector2Int mDepthResolution = new Vector2Int(512, 424);
+    private Rect mRect;
 
     private void Awake()
     {
         mSensor = KinectSensor.GetDefault();
         mMapper = mSensor.CoordinateMapper;
+        mCamera = Camera.main;
 
         int arraySize = mDepthResolution.x * mDepthResolution.y;
 
         mCameraSpacePoints = new CameraSpacePoint[arraySize];
         mColorSpacePoints= new ColorSpacePoint[arraySize];
 
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame
@@ -65,8 +62,15 @@ public class GetKinectDepth : MonoBehaviour
         {
             mValidPoints = DepthToColor();
 
+            mRect = CreateRect(mValidPoints);
+
             mDepthTexture = CreateTexture(mValidPoints);
         }
+    }
+
+    private void OnGUI()
+    {
+        GUI.Box(mRect, "");
     }
 
     private List<ValidPoint> DepthToColor()
@@ -149,6 +153,78 @@ public class GetKinectDepth : MonoBehaviour
 
         return newTexture;
     }
+
+    #region Rect Creation
+    private Rect CreateRect(List<ValidPoint> points)
+    {
+        if(points.Count == 0)
+        {
+            return new Rect();
+        }
+
+        Vector2 topLeft = GetTopLeft(points);
+        Vector2 bottomRight = GetBottomRight(points);
+
+        // Translate to viewport
+        Vector2 screenTopLeft = ScreenToCamera(topLeft);
+        Vector2 screenBottomRight = ScreenToCamera(bottomRight);
+
+        // Rect dimensions
+        int width = (int)(screenBottomRight.x - screenTopLeft.x);
+        int height = (int)(screenBottomRight.y- screenTopLeft.y);
+
+        // Create
+        Vector2 size = new Vector2(width, height);
+        Rect rect = new Rect(screenTopLeft, size);
+
+        return rect;
+    }
+
+    private Vector2 GetTopLeft(List<ValidPoint> validPoints)
+    {
+        Vector2 topLeft = new Vector2(int.MaxValue, int.MaxValue);
+
+        foreach(ValidPoint point in validPoints)
+        {
+            // Left most x value
+            if(point.colorSpace.X < topLeft.x)
+                topLeft.x = point.colorSpace.X;
+
+            // Top most y value
+            if(point.colorSpace.Y < topLeft.y)
+                topLeft.y = point.colorSpace.Y;
+        }
+
+        return topLeft;
+    }
+
+    private Vector2 GetBottomRight(List<ValidPoint> validPoints)
+    {
+        Vector2 bottomRight = new Vector2(int.MinValue, int.MinValue);
+
+        foreach (ValidPoint point in validPoints)
+        {
+            // Left most x value
+            if (point.colorSpace.X > bottomRight.x)
+                bottomRight.x = point.colorSpace.X;
+
+            // Top most y value
+            if (point.colorSpace.Y > bottomRight.y)
+                bottomRight.y = point.colorSpace.Y;
+        }
+
+        return bottomRight;
+    }
+
+    private Vector2 ScreenToCamera(Vector2 screenPosition)
+    {
+        Vector2 normalizdScreen = new Vector2(Mathf.InverseLerp(0, 1920, screenPosition.x), Mathf.InverseLerp(0, 1080, screenPosition.y));
+
+        Vector2 screenPoint = new Vector2(normalizdScreen.x * mCamera.pixelWidth, normalizdScreen.y * mCamera.pixelHeight);
+
+        return screenPoint;
+    }
+    #endregion
 }
 
 public class ValidPoint
