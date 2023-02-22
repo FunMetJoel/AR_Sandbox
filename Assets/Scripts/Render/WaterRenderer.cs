@@ -4,17 +4,25 @@ using UnityEngine;
 
 public class WaterRenderer : MonoBehaviour
 {
-    // Start is called before the first frame update
-     void Start()
-     {
+    Renderer mRenderer = null;
 
-     }
+    // Start is called before the first frame update
+    void Start()
+    {
+        mRenderer = GetComponent<Renderer>();
+
+    }
 
     // Update is called once per frame
     void Update()
     {
         // connect texture to material of GameObject t$$anonymous$$s script is attached to
         GetComponent<Renderer>().material.SetTexture("_Height", newTexture(World.Instance.WorldSize.x, World.Instance.WorldSize.y));
+
+        if (mRenderer.material.GetVector("_MinMaxSchale") != new Vector4(World.Instance.MinMaxScaleKM.x, World.Instance.MinMaxScaleKM.y, 0, 0))
+        {
+            mRenderer.material.SetVector("_MinMaxSchale", World.Instance.MinMaxScaleKM);
+        }
     }
 
     Texture2D newTexture(int SizeX, int SizeY){

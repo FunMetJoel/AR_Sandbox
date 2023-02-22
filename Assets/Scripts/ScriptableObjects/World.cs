@@ -29,7 +29,7 @@ public class World : SingletonScriptableObject<World>
             {
                 Tiles[x, y] = new Tile();
                 Tiles[x, y].LandHeight = Mathf.RoundToInt((float)WorldSize.z * Mathf.PerlinNoise(0.01f * x, 0.01f * y));
-                Tiles[x, y].WaterHeight = 50;
+                Tiles[x, y].WaterHeight = 1020;
             }
         }
     }
@@ -43,6 +43,7 @@ public class Tile
     public int IceHeight = 0;
     public int Humidity = 0;
     public int TreeDensity = 0;
+    public float Temperature = 0;
     public Vector4 BiomeData = new Vector4(0, 0, 0, 0);
 
     [Tooltip("LuchtTemperatuur boven land- of water-oppervlakte in graden Celcius")]
