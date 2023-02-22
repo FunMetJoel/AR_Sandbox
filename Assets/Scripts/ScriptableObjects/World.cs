@@ -29,7 +29,7 @@ public class World : SingletonScriptableObject<World>
             {
                 Tiles[x, y] = new Tile();
                 Tiles[x, y].LandHeight = Mathf.RoundToInt((float)WorldSize.z * Mathf.PerlinNoise(0.01f * x, 0.01f * y));
-                Tiles[x, y].WaterHeight = 10;
+                Tiles[x, y].WaterHeight = 50;
             }
         }
     }
