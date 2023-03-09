@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FluidManager : MonoBehaviour
+public class WaterManager : MonoBehaviour
 {
     private bool doWaterMovement;
     private bool doWaterSources;
@@ -30,6 +30,7 @@ public class FluidManager : MonoBehaviour
         Settings.Instance.SettingsChanged.AddListener(UpdateSettings);
         NewWaterHeight = new int[World.Instance.WorldSize.x, World.Instance.WorldSize.y];
     }
+
     // Update is called once per frame
     void Update()
     {

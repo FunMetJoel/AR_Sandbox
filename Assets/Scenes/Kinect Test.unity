@@ -540,5 +540,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: PR_vieuwer
       objectReference: {fileID: 0}
+    - target: {fileID: 6892423280579857551, guid: ce371f2be4e381e43941341142adc695,
+        type: 3}
+      propertyPath: m_UVRect.x
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6892423280579857551, guid: ce371f2be4e381e43941341142adc695,
+        type: 3}
+      propertyPath: m_UVRect.width
+      value: 0.75
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce371f2be4e381e43941341142adc695, type: 3}

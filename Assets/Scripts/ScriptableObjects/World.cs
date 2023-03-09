@@ -30,8 +30,21 @@ public class World : SingletonScriptableObject<World>
                 Tiles[x, y] = new Tile();
                 Tiles[x, y].LandHeight = Mathf.RoundToInt((float)WorldSize.z * Mathf.PerlinNoise(0.01f * x, 0.01f * y));
                 Tiles[x, y].WaterHeight = 1020;
+                Tiles[x, y].Temperature = (Mathf.PerlinNoise(0.1f * x, 0.1f * y)*120f)-60f;
             }
         }
+    }
+
+    public bool InBounds(int x, int y)
+    {
+        bool mBool = true;
+        
+        if(x >= 0) mBool= false;
+        if(y >= 0) mBool= false;
+        if(x <= WorldSize.x) mBool= false;
+        if(y <= WorldSize.y) mBool= false;
+
+        return mBool;
     }
 }
 
@@ -41,8 +54,9 @@ public class Tile
     public int LandHeight = 0;
     public int WaterHeight = 0;
     public int IceHeight = 0;
-    public int Humidity = 0;
-    public int TreeDensity = 0;
+    public int AirHumidity = 0;
+    public int GroundHumidity = 0;
+    public int PlantDensity = 0;
     public float Temperature = 0;
     public Vector4 BiomeData = new Vector4(0, 0, 0, 0);
 
