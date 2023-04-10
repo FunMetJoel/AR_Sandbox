@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection;
+using System.Xml;
 using UnityEngine;
 using Windows.Kinect;
 
@@ -71,22 +72,46 @@ public class GetKinectDepth : MonoBehaviour
             mRect = CreateRect(mValidPoints);
 
             mDepthTexture = CreateTexture(mValidPoints);
+
+
         }
+
+        int ix = 0;
+        int iy = 0;
+        foreach (ValidPoint point in mValidPoints)
+        {
+            ix++;
+
+            if (ix > (mDepthResolution.x / 8f))
+            {
+                iy++;
+                ix = 0;
+            }
+            World.Instance.Tiles[ix, iy].LandHeight = Mathf.RoundToInt(point.z * 4080f);
+            Debug.Log("( " + ix + ", " + iy + "): " +  Mathf.RoundToInt(point.z * 4080f));
+        }
+        Debug.Log("Finished");
     }
 
     private void OnGUI()
-    {
+    {/*
         GUI.Box(mRect, "");
 
         if (mTriggerPoints == null)
             return;
 
+
         foreach(Vector3 point in mTriggerPoints)
         {
+
             Rect rect = new Rect(point, new Vector2( (1-(point.z-0.5f))*5, (1 - (point.z - 0.5f)) * 5));
             GUI.Box(rect, "");
             //if (point.z != 0f) { Debug.Log(point.z); }
-        }
+            
+            
+        }*/
+
+        
     }
 
     private List<ValidPoint> DepthToColor()
@@ -109,7 +134,7 @@ public class GetKinectDepth : MonoBehaviour
                 // Sample index
                 int sampleIndex = (j * mDepthResolution.x) + i;
                 sampleIndex *= 8;
-
+                /*
                 // Cutoff tests
                 if (mCameraSpacePoints[sampleIndex].X < mLeftCutOff)
                 {
@@ -130,11 +155,13 @@ public class GetKinectDepth : MonoBehaviour
                 {
                     continue;
                 }
+                */
 
                 // Create point
-                ValidPoint newPoint = new ValidPoint(mColorSpacePoints[sampleIndex], mCameraSpacePoints[sampleIndex].Z);
+                ValidPoint newPoint = new ValidPoint(mColorSpacePoints[sampleIndex], mCameraSpacePoints[sampleIndex], ((float)mDepthData[sampleIndex] - 803f) / (1124f - 803f));
 
                 newPoint.depth = mCameraSpacePoints[sampleIndex].Z;
+
                 // Depth Test
                 if (mCameraSpacePoints[sampleIndex].Z >= mWallDepth)
                 {
@@ -268,15 +295,17 @@ public class GetKinectDepth : MonoBehaviour
 public class ValidPoint
 {
     public ColorSpacePoint colorSpace;
+    public CameraSpacePoint cameraSpace;
     public float z = 0.0f;
 
     public bool mWithinWallDepth = false;
 
     public float depth = 1f;
 
-    public ValidPoint(ColorSpacePoint newColorSpace, float newZ)
+    public ValidPoint(ColorSpacePoint newColorSpace, CameraSpacePoint newcameraSpace, float newZ)
     {
         colorSpace = newColorSpace;
+        cameraSpace = newcameraSpace;
         z = newZ;
     }
 }
