@@ -17,7 +17,7 @@ public class WaterRenderer : MonoBehaviour
     void Update()
     {
         // connect texture to material of GameObject t$$anonymous$$s script is attached to
-        GetComponent<Renderer>().material.SetTexture("_Height", newTexture(World.Instance.WorldSize.x, World.Instance.WorldSize.y));
+        mRenderer.material.SetTexture("_Height", newTexture(World.Instance.WorldSize.x, World.Instance.WorldSize.y));
 
         if (mRenderer.material.GetVector("_MinMaxSchale") != new Vector4(World.Instance.MinMaxScaleKM.x, World.Instance.MinMaxScaleKM.y, 0, 0))
         {
@@ -33,12 +33,12 @@ public class WaterRenderer : MonoBehaviour
         {
             for (int y = 0; y < SizeY; y++)
             {
-                if(World.Instance.Tiles[x,y].WaterHeight > 0){
-                    texture.SetPixel(x, y, new Color(World.Instance.Tiles[x,y].WaterHeight/(float)World.Instance.WorldSize.z, 0, 0, 1));
+                if(World.Instance.Points[x,y].WaterHeight > 0){
+                    texture.SetPixel(x, y, new Color(World.Instance.Points[x,y].WaterHeight/(float)World.Instance.WorldSize.z, 0, 0, 1));
                 }else{
-                    texture.SetPixel(x, y, new Color(World.Instance.Tiles[x,y].WaterHeight/(float)World.Instance.WorldSize.z, 0, 0, 0));
+                    texture.SetPixel(x, y, new Color(World.Instance.Points[x,y].WaterHeight/(float)World.Instance.WorldSize.z, 0, 0, 0));
                 }
-                //texture.SetPixel(x, y, new Color(World.Instance.Tiles[x,y].WaterHeight/(float)World.Instance.WorldSize.z, 0, 0, 0));
+                //texture.SetPixel(x, y, new Color(World.Instance.Points[x,y].WaterHeight/(float)World.Instance.WorldSize.z, 0, 0, 0));
             }
         }
 

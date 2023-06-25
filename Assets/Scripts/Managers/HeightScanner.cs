@@ -14,6 +14,7 @@ public class HeightScanner : MonoBehaviour
     public InfraredSourceManager InfraredSourceManager;
     public Vector2Int MinAndMaxKinectValues = new Vector2Int(0, 255);
 
+    [Header("Noise")]
     [SerializeField]
     [ConditionalHide("UseKinect", false, true)]
     private float Tseed;
@@ -39,7 +40,7 @@ public class HeightScanner : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                World.Instance.Tiles[x, y].LandHeight = newHeight[x,y];
+                World.Instance.Points[x, y].LandHeight = newHeight[x,y];
             }
         }
     }
@@ -56,7 +57,6 @@ public class HeightScanner : MonoBehaviour
             }
         }
 
-        Debug.Log(newHeight[64,53]);
         return newHeight;
     }
 
@@ -68,7 +68,11 @@ public class HeightScanner : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                newHeight[x, y] = Mathf.RoundToInt((float)World.Instance.WorldSize.z * Mathf.PerlinNoise(0.05f * x + seed, 0.05f * y + seed));
+                int nHeight = Mathf.RoundToInt((float)World.Instance.WorldSize.z * Mathf.PerlinNoise(0.03f * x + seed, 0.03f * y + seed));
+                nHeight += Mathf.RoundToInt((float)World.Instance.WorldSize.z * 0.1f * Mathf.PerlinNoise(0.1f * x + seed, 0.2f * y + seed));
+                nHeight = Mathf.RoundToInt((float)nHeight * ((Mathf.PerlinNoise(0.01f * x + seed, 0.01f * y + seed)) + 0.5f));
+                newHeight[x, y] = nHeight;
+
             }
         }
 

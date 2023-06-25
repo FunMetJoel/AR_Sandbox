@@ -87,7 +87,7 @@ public class GetKinectDepth : MonoBehaviour
                 iy++;
                 ix = 0;
             }
-            World.Instance.Tiles[ix, iy].LandHeight = Mathf.RoundToInt(point.z * 4080f);
+            World.Instance.Points[ix, iy].LandHeight = Mathf.RoundToInt(point.z * 4080f);
             Debug.Log("( " + ix + ", " + iy + "): " +  Mathf.RoundToInt(point.z * 4080f));
         }
         Debug.Log("Finished");

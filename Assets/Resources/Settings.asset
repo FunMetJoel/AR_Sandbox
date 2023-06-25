@@ -16,7 +16,7 @@ MonoBehaviour:
   landMaterial: {fileID: 0}
   waterMaterial: {fileID: 0}
   doWaterMovement: 1
-  doWaterSources: 0
+  doWaterSources: 1
   doWeather: 0
   doWeatherCycle: 0
   wheaterEffectsWater: 0

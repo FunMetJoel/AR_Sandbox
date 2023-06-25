@@ -9,8 +9,10 @@ public class WaterManager : MonoBehaviour
 
     private int[,] NewWaterHeight;
 
-    public float FlowSpeed = 10f;
-    private float RunTime;
+    [SerializeField]
+    private float FlowSpeed = 10f;
+    private float RunTime; 
+    private float SourceTime;
 
     public void UpdateSettings()
     {
@@ -26,35 +28,40 @@ public class WaterManager : MonoBehaviour
     }
     void Start()
     {
+        // Settings stuf
         UpdateSettings();
         Settings.Instance.SettingsChanged.AddListener(UpdateSettings);
+
+        // Populate array
         NewWaterHeight = new int[World.Instance.WorldSize.x, World.Instance.WorldSize.y];
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (doWaterMovement)
+        // Check if water should move
+        if (!doWaterMovement)
+            return;
+
+        // Moves water each sec/flowspeed
+        RunTime += Time.deltaTime * FlowSpeed;
+        if (RunTime >= 1)
         {
-            RunTime += Time.deltaTime * FlowSpeed;
+            RunTime = 0;
 
-            if (RunTime >= 10)
-            {
-                RunTime = 0;
-
-                UpdateWater();
-            }
+            UpdateWater();
         }
-
-        if (doWaterSources)
+        SourceTime += Time.deltaTime;
+        if (doWaterSources && SourceTime >= 1/60)
         {
+            SourceTime = 0;
             foreach (Vector3Int Source in World.Instance.WaterSources)
             {
-                World.Instance.Tiles[Source.x, Source.y].WaterHeight += Source.z;
+                World.Instance.Points[Source.x, Source.y].WaterHeight += Source.z;
             }
         }
     }
 
+    // Drains all water
     [InspectorButton("DrainAllWater")]
     public bool DrainWater;
     public void DrainAllWater()
@@ -63,18 +70,19 @@ public class WaterManager : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                World.Instance.Tiles[x, y].WaterHeight = 0;
+                World.Instance.Points[x, y].WaterHeight = 0;
             }
         }
     }
 
+    // Generates new water frame
     public void UpdateWater()
     {
         for (int y = 0; y < World.Instance.WorldSize.y; y++)
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                NewWaterHeight[x, y] = World.Instance.Tiles[x, y].WaterHeight;
+                NewWaterHeight[x, y] = World.Instance.Points[x, y].WaterHeight;
             }
         }
 
@@ -82,46 +90,46 @@ public class WaterManager : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                if (World.Instance.Tiles[x, y].WaterHeight >= 8)
+                if (World.Instance.Points[x, y].WaterHeight >= 8)
                 {
 
-                    if (x - 1 > 0 && World.Instance.Tiles[x-1, y].TotalHeight() <= World.Instance.Tiles[x, y].TotalHeight())
+                    if (x - 1 > 0 && World.Instance.Points[x-1, y].TotalHeight() <= World.Instance.Points[x, y].TotalHeight())
                     {
-                        NewWaterHeight[x - 1, y] += Mathf.RoundToInt((World.Instance.Tiles[x, y].TotalHeight() - World.Instance.Tiles[x - 1, y].TotalHeight())/5);
-                        NewWaterHeight[x, y] -= Mathf.RoundToInt((World.Instance.Tiles[x, y].TotalHeight() - World.Instance.Tiles[x - 1, y].TotalHeight()) / 5);
+                        NewWaterHeight[x - 1, y] += Mathf.RoundToInt((World.Instance.Points[x, y].TotalHeight() - World.Instance.Points[x - 1, y].TotalHeight())/5);
+                        NewWaterHeight[x, y] -= Mathf.RoundToInt((World.Instance.Points[x, y].TotalHeight() - World.Instance.Points[x - 1, y].TotalHeight()) / 5);
                     }
-                    if (x + 1 < World.Instance.WorldSize.x && World.Instance.Tiles[x + 1, y].TotalHeight() <= World.Instance.Tiles[x, y].TotalHeight())
+                    if (x + 1 < World.Instance.WorldSize.x && World.Instance.Points[x + 1, y].TotalHeight() <= World.Instance.Points[x, y].TotalHeight())
                     {
-                        NewWaterHeight[x + 1, y] += Mathf.RoundToInt((World.Instance.Tiles[x, y].TotalHeight() - World.Instance.Tiles[x + 1, y].TotalHeight()) / 5);
-                        NewWaterHeight[x, y] -= Mathf.RoundToInt((World.Instance.Tiles[x, y].TotalHeight() - World.Instance.Tiles[x + 1, y].TotalHeight()) / 5);
+                        NewWaterHeight[x + 1, y] += Mathf.RoundToInt((World.Instance.Points[x, y].TotalHeight() - World.Instance.Points[x + 1, y].TotalHeight()) / 5);
+                        NewWaterHeight[x, y] -= Mathf.RoundToInt((World.Instance.Points[x, y].TotalHeight() - World.Instance.Points[x + 1, y].TotalHeight()) / 5);
                     }
-                    if (y - 1 > 0 && World.Instance.Tiles[x, y - 1].TotalHeight() <= World.Instance.Tiles[x, y].TotalHeight())
+                    if (y - 1 > 0 && World.Instance.Points[x, y - 1].TotalHeight() <= World.Instance.Points[x, y].TotalHeight())
                     {
-                        NewWaterHeight[x, y - 1] += Mathf.RoundToInt((World.Instance.Tiles[x, y].TotalHeight() - World.Instance.Tiles[x, y - 1].TotalHeight()) / 5);
-                        NewWaterHeight[x, y] -= Mathf.RoundToInt((World.Instance.Tiles[x, y].TotalHeight() - World.Instance.Tiles[x, y - 1].TotalHeight()) / 5);
+                        NewWaterHeight[x, y - 1] += Mathf.RoundToInt((World.Instance.Points[x, y].TotalHeight() - World.Instance.Points[x, y - 1].TotalHeight()) / 5);
+                        NewWaterHeight[x, y] -= Mathf.RoundToInt((World.Instance.Points[x, y].TotalHeight() - World.Instance.Points[x, y - 1].TotalHeight()) / 5);
                     }
-                    if (y + 1 < World.Instance.WorldSize.y && World.Instance.Tiles[x, y + 1].TotalHeight() <= World.Instance.Tiles[x, y].TotalHeight())
+                    if (y + 1 < World.Instance.WorldSize.y && World.Instance.Points[x, y + 1].TotalHeight() <= World.Instance.Points[x, y].TotalHeight())
                     {
-                        NewWaterHeight[x, y + 1] += Mathf.RoundToInt((World.Instance.Tiles[x, y].TotalHeight() - World.Instance.Tiles[x, y + 1].TotalHeight()) / 5);
-                        NewWaterHeight[x, y] -= Mathf.RoundToInt((World.Instance.Tiles[x, y].TotalHeight() - World.Instance.Tiles[x, y + 1].TotalHeight()) / 5);
+                        NewWaterHeight[x, y + 1] += Mathf.RoundToInt((World.Instance.Points[x, y].TotalHeight() - World.Instance.Points[x, y + 1].TotalHeight()) / 5);
+                        NewWaterHeight[x, y] -= Mathf.RoundToInt((World.Instance.Points[x, y].TotalHeight() - World.Instance.Points[x, y + 1].TotalHeight()) / 5);
                     }
                 }
-                else if (World.Instance.Tiles[x, y].WaterHeight > 0)
+                else if (World.Instance.Points[x, y].WaterHeight > 0)
                 {
                     Vector2Int LowestTile = new Vector2Int(x, y);
-                    if (x - 1 > 0 && World.Instance.Tiles[x - 1, y].LandHeight + World.Instance.Tiles[x - 1, y].WaterHeight < World.Instance.Tiles[LowestTile.x, LowestTile.y].LandHeight + World.Instance.Tiles[LowestTile.x, LowestTile.y].WaterHeight)
+                    if (x - 1 > 0 && World.Instance.Points[x - 1, y].LandHeight + World.Instance.Points[x - 1, y].WaterHeight < World.Instance.Points[LowestTile.x, LowestTile.y].LandHeight + World.Instance.Points[LowestTile.x, LowestTile.y].WaterHeight)
                     {
                         LowestTile = new Vector2Int(x - 1, y);
                     }
-                    if (x + 1 < World.Instance.WorldSize.x && World.Instance.Tiles[x + 1, y].LandHeight + World.Instance.Tiles[x + 1, y].WaterHeight < World.Instance.Tiles[LowestTile.x, LowestTile.y].LandHeight + World.Instance.Tiles[LowestTile.x, LowestTile.y].WaterHeight)
+                    if (x + 1 < World.Instance.WorldSize.x && World.Instance.Points[x + 1, y].LandHeight + World.Instance.Points[x + 1, y].WaterHeight < World.Instance.Points[LowestTile.x, LowestTile.y].LandHeight + World.Instance.Points[LowestTile.x, LowestTile.y].WaterHeight)
                     {
                         LowestTile = new Vector2Int(x + 1, y);
                     }
-                    if (y - 1 > 0 && World.Instance.Tiles[x, y - 1].LandHeight + World.Instance.Tiles[x, y - 1].WaterHeight < World.Instance.Tiles[LowestTile.x, LowestTile.y].LandHeight + World.Instance.Tiles[LowestTile.x, LowestTile.y].WaterHeight)
+                    if (y - 1 > 0 && World.Instance.Points[x, y - 1].LandHeight + World.Instance.Points[x, y - 1].WaterHeight < World.Instance.Points[LowestTile.x, LowestTile.y].LandHeight + World.Instance.Points[LowestTile.x, LowestTile.y].WaterHeight)
                     {
                         LowestTile = new Vector2Int(x, y - 1);
                     }
-                    if (y + 1 < World.Instance.WorldSize.y && World.Instance.Tiles[x, y + 1].LandHeight + World.Instance.Tiles[x, y + 1].WaterHeight < World.Instance.Tiles[LowestTile.x, LowestTile.y].LandHeight + World.Instance.Tiles[LowestTile.x, LowestTile.y].WaterHeight)
+                    if (y + 1 < World.Instance.WorldSize.y && World.Instance.Points[x, y + 1].LandHeight + World.Instance.Points[x, y + 1].WaterHeight < World.Instance.Points[LowestTile.x, LowestTile.y].LandHeight + World.Instance.Points[LowestTile.x, LowestTile.y].WaterHeight)
                     {
                         LowestTile = new Vector2Int(x, y + 1);
                     }
@@ -136,8 +144,79 @@ public class WaterManager : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                World.Instance.Tiles[x, y].WaterHeight = NewWaterHeight[x, y];
+                World.Instance.Points[x, y].WaterHeight = NewWaterHeight[x, y];
             }
         }
     }
+
+    public void UpdateWater2()
+    {
+        // Gets water start values
+        NewWaterHeight = GetWaterHeightArray();
+
+        for (int y = 0; y < World.Instance.WorldSize.y; y++)
+        {
+            for (int x = 0; x < World.Instance.WorldSize.x; x++)
+            {
+                int possibleFlowSides = 0;
+                if (World.Instance.InBounds(x - 1, y) && World.Instance.Points[x - 1, y].AbsoluteWaterHeight() < World.Instance.Points[x, y].AbsoluteWaterHeight())
+                    possibleFlowSides++;
+                if (World.Instance.InBounds(x + 1, y) && World.Instance.Points[x + 1, y].AbsoluteWaterHeight() < World.Instance.Points[x, y].AbsoluteWaterHeight())
+                    possibleFlowSides++;
+                if (World.Instance.InBounds(x, y - 1) && World.Instance.Points[x, y - 1].AbsoluteWaterHeight() < World.Instance.Points[x, y].AbsoluteWaterHeight())
+                    possibleFlowSides++;
+                if (World.Instance.InBounds(x, y + 1) && World.Instance.Points[x, y + 1].AbsoluteWaterHeight() < World.Instance.Points[x, y].AbsoluteWaterHeight())
+                    possibleFlowSides++;
+
+                if(x == 20 && y == 23)
+                {
+                    Debug.Log(World.Instance.InBounds(20,23));
+                    Debug.Log(World.Instance.Points[x - 1, y - 1].AbsoluteWaterHeight() < World.Instance.Points[x, y].AbsoluteWaterHeight());
+                }
+
+                if (possibleFlowSides > World.Instance.Points[x, y].WaterHeight || possibleFlowSides==0)
+                    continue;
+                
+                if (World.Instance.InBounds(x - 1, y) && World.Instance.Points[x - 1, y].AbsoluteWaterHeight() < World.Instance.Points[x, y].AbsoluteWaterHeight())
+                    NewWaterHeight[x - 1, y] ++;
+                if (World.Instance.InBounds(x + 1, y) && World.Instance.Points[x + 1, y].AbsoluteWaterHeight() < World.Instance.Points[x, y].AbsoluteWaterHeight())
+                    NewWaterHeight[x + 1, y]++;
+                if (World.Instance.InBounds(x, y - 1) && World.Instance.Points[x, y - 1].AbsoluteWaterHeight() < World.Instance.Points[x, y].AbsoluteWaterHeight())
+                    NewWaterHeight[x, y - 1]++;
+                if (World.Instance.InBounds(x, y + 1) && World.Instance.Points[x, y + 1].AbsoluteWaterHeight() < World.Instance.Points[x, y].AbsoluteWaterHeight())
+                    NewWaterHeight[x, y + 1]++;
+
+                NewWaterHeight[x, y] -= possibleFlowSides;
+            }
+        }
+
+        // Sets water height values
+        SetWaterHeightArray(NewWaterHeight);
+    }
+
+    public int[,] GetWaterHeightArray()
+    {
+        int[,] Waterheight = new int[World.Instance.WorldSize.x, World.Instance.WorldSize.y];
+        for (int y = 0; y < World.Instance.WorldSize.y; y++)
+        {
+            for (int x = 0; x < World.Instance.WorldSize.x; x++)
+            {
+                Waterheight[x, y] = World.Instance.Points[x, y].WaterHeight;
+            }
+        }
+
+        return Waterheight;
+    }
+
+    public void SetWaterHeightArray(int[,] Waterheight)
+    {
+        for (int y = 0; y < World.Instance.WorldSize.y; y++)
+        {
+            for (int x = 0; x < World.Instance.WorldSize.x; x++)
+            {
+                World.Instance.Points[x, y].WaterHeight = Waterheight[x, y];
+            }
+        }
+    }
+
 }

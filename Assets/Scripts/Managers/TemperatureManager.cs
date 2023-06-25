@@ -36,7 +36,7 @@ public class TemperatureManager : MonoBehaviour
                 {
                     for (int x = 0; x < World.Instance.WorldSize.x; x++)
                     {
-                        NewTemp[x, y] = World.Instance.Tiles[x, y].Temperature;
+                        NewTemp[x, y] = World.Instance.Points[x, y].Temperature;
                     }
                 }
 
@@ -72,7 +72,7 @@ public class TemperatureManager : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                World.Instance.Tiles[x, y].Temperature = newTemp[x, y];
+                World.Instance.Points[x, y].Temperature = newTemp[x, y];
             }
         }
     }

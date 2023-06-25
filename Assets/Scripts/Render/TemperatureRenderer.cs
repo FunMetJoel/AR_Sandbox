@@ -28,7 +28,7 @@ public class TemperatureRenderer : MonoBehaviour
         {
             for (int y = 0; y < SizeY; y++)
             {
-                texture.SetPixel(x, y, new Color((World.Instance.Tiles[x, y].Temperature + 60f) / 120f, 0, 0, 0));
+                texture.SetPixel(x, y, new Color((World.Instance.Points[x, y].Temperature + 60f) / 120f, 0, 0, 0));
             }
         }
 
