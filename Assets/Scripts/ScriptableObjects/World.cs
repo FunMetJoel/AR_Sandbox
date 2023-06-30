@@ -31,7 +31,7 @@ public class World : SingletonScriptableObject<World>
             {
                 Points[x, y] = new Point();
                 Points[x, y].LandHeight = Mathf.RoundToInt((float)WorldSize.z * Mathf.PerlinNoise(0.01f * x, 0.01f * y));
-                Points[x, y].WaterHeight = 25;
+                Points[x, y].WaterHeight = 0.05f;
                 Points[x, y].Temperature = (Mathf.PerlinNoise(0.1f * x, 0.1f * y)*120f)-60f;
             }
         }
@@ -72,11 +72,11 @@ public class Point
     
     public float AbsoluteWaterHeight()
     {
-        return LandHeight + WaterHeight;
+        return LandHeight + WaterHeight + 0.8f * IceHeight;
     }
 
     public float TotalHeight()
     {
-        return LandHeight + WaterHeight;
+        return LandHeight + WaterHeight + IceHeight;
     }
 }

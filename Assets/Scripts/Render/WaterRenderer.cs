@@ -16,6 +16,10 @@ public class WaterRenderer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (mRenderer.material.GetTexture("_Height") != null)
+        {
+            Destroy(mRenderer.material.GetTexture("_Height"));
+        }
         // connect texture to material of GameObject t$$anonymous$$s script is attached to
         mRenderer.material.SetTexture("_Height", newTexture(World.Instance.WorldSize.x, World.Instance.WorldSize.y));
 
@@ -34,9 +38,9 @@ public class WaterRenderer : MonoBehaviour
             for (int y = 0; y < SizeY; y++)
             {
                 if(World.Instance.Points[x,y].WaterHeight > 0){
-                    texture.SetPixel(x, y, new Color(World.Instance.Points[x, y].WaterHeight, 0, 0, 1));
+                    texture.SetPixel(x, y, new Color(World.Instance.Points[x, y].WaterHeight, World.Instance.Points[x, y].IceHeight, 0, 1));
                 }else{
-                    texture.SetPixel(x, y, new Color(World.Instance.Points[x,y].WaterHeight, 0, 0, 0));
+                    texture.SetPixel(x, y, new Color(World.Instance.Points[x,y].WaterHeight, World.Instance.Points[x, y].IceHeight, 0, 0));
                 }
                 //texture.SetPixel(x, y, new Color(World.Instance.Points[x,y].WaterHeight/(float)World.Instance.WorldSize.z, 0, 0, 0));
             }

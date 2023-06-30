@@ -32,6 +32,10 @@ public class Settings : SingletonScriptableObject<Settings>
     [Tooltip("Controlles of weather effects water height")]
     public bool wheaterEffectsWater;
 
+    public bool doIceForming;
+    public bool doGroundHumidity;
+
+
     [Header("UpdateSettings")]
     [InspectorButton("SettingChange")]
     public bool SettingsChangedUpdate;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class LandRenderer : MonoBehaviour
 {
@@ -14,6 +15,10 @@ public class LandRenderer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (mRenderer.material.GetTexture("_Height") != null)
+        {
+            Destroy(mRenderer.material.GetTexture("_Height"));
+        }
         // connect texture to material of GameObject t$$anonymous$$s script is attached to
         mRenderer.material.SetTexture("_Height", newTexture(World.Instance.WorldSize.x, World.Instance.WorldSize.y));
 
@@ -31,7 +36,7 @@ public class LandRenderer : MonoBehaviour
         {
             for (int y = 0; y < SizeY; y++)
             {
-                texture.SetPixel(x, y, new Color(World.Instance.Points[x,y].LandHeight, 0, 0, 0));
+                texture.SetPixel(x, y, new Color(World.Instance.Points[x,y].LandHeight, World.Instance.Points[x, y].GroundHumidity / 0.03f, 0, 0));
             }
         }
 

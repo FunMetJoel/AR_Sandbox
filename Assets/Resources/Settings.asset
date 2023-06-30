@@ -20,6 +20,7 @@ MonoBehaviour:
   doWeather: 0
   doWeatherCycle: 0
   wheaterEffectsWater: 0
+  doIceForming: 1
   SettingsChangedUpdate: 0
   SettingsChanged:
     m_PersistentCalls:

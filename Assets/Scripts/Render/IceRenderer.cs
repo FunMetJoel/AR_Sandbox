@@ -14,6 +14,10 @@ public class IceRenderer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (mRenderer.material.GetTexture("_Height") != null)
+        {
+            Destroy(mRenderer.material.GetTexture("_Height"));
+        }
         // connect texture to material of GameObject t$$anonymous$$s script is attached to
         mRenderer.material.SetTexture("_Height", newTexture(World.Instance.WorldSize.x, World.Instance.WorldSize.y));
     }

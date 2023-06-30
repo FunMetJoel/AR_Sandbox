@@ -14,6 +14,10 @@ public class TemperatureRenderer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (mRenderer.material.GetTexture("_Temp") != null)
+        {
+            Destroy(mRenderer.material.GetTexture("_Temp"));
+        }
         // connect texture to material of GameObject t$$anonymous$$s script is attached to
         mRenderer.material.SetTexture("_Temp", newTexture(World.Instance.WorldSize.x, World.Instance.WorldSize.y));
     }
