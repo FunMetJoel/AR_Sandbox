@@ -56,26 +56,26 @@ public class World : SingletonScriptableObject<World>
 [System.Serializable]
 public class Point
 {
-    public int LandHeight = 0;
-    public int WaterHeight = 0;
-    public int IceHeight = 0;
-    public int AirHumidity = 0;
-    public int GroundHumidity = 0;
-    public int PlantDensity = 0;
+    public float LandHeight = 0;
+    public float WaterHeight = 0;
+    public float IceHeight = 0;
+    public float AirHumidity = 0;
+    public float GroundHumidity = 0;
+    public float PlantDensity = 0;
     public float Temperature = 0;
     public Vector4 BiomeData = new Vector4(0, 0, 0, 0);
 
     [Tooltip("LuchtTemperatuur boven land- of water-oppervlakte in graden Celcius")]
     public float LuchtTemperatuur = 0;
 
-    public int LuchtVochtigheid = 0;
+    public float LuchtVochtigheid = 0;
     
-    public int AbsoluteWaterHeight()
+    public float AbsoluteWaterHeight()
     {
         return LandHeight + WaterHeight;
     }
 
-    public int TotalHeight()
+    public float TotalHeight()
     {
         return LandHeight + WaterHeight;
     }
