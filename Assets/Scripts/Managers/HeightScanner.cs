@@ -34,7 +34,7 @@ public class HeightScanner : MonoBehaviour
         }
     }
     
-    private void ChangeWorldHeight(int[,] newHeight)
+    private void ChangeWorldHeight(float[,] newHeight)
     {
         for (int y = 0; y < World.Instance.WorldSize.y; y++)
         {
@@ -45,9 +45,9 @@ public class HeightScanner : MonoBehaviour
         }
     }
 
-    private int[,] KinectHeight(ushort[] KinectData)
+    private float[,] KinectHeight(ushort[] KinectData)
     {
-        int[,] newHeight = new int[World.Instance.WorldSize.x, World.Instance.WorldSize.y];
+        float[,] newHeight = new float[World.Instance.WorldSize.x, World.Instance.WorldSize.y];
 
         for (int y = 0; y < World.Instance.WorldSize.y; y++)
         {
@@ -60,17 +60,16 @@ public class HeightScanner : MonoBehaviour
         return newHeight;
     }
 
-    private int[,] PerlinNoiseHeight(float seed)
+    private float[,] PerlinNoiseHeight(float seed)
     {
-        int[,] newHeight = new int[World.Instance.WorldSize.x,World.Instance.WorldSize.y];
+        float[,] newHeight = new float[World.Instance.WorldSize.x,World.Instance.WorldSize.y];
 
         for (int y = 0; y < World.Instance.WorldSize.y; y++)
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                int nHeight = Mathf.RoundToInt((float)World.Instance.WorldSize.z * Mathf.PerlinNoise(0.03f * x + seed, 0.03f * y + seed));
-                nHeight += Mathf.RoundToInt((float)World.Instance.WorldSize.z * 0.1f * Mathf.PerlinNoise(0.1f * x + seed, 0.2f * y + seed));
-                nHeight = Mathf.RoundToInt((float)nHeight * ((Mathf.PerlinNoise(0.01f * x + seed, 0.01f * y + seed)) + 0.5f));
+                float nHeight = Mathf.PerlinNoise(0.03f * x + seed, 0.03f * y + seed);
+                //nHeight *= Mathf.PerlinNoise(0.1f * x + seed, 0.2f * y + seed);
                 newHeight[x, y] = nHeight;
 
             }
