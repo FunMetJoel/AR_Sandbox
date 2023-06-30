@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 
 public class WaterManager : MonoBehaviour
@@ -8,8 +10,10 @@ public class WaterManager : MonoBehaviour
     private bool doWaterSources;
     private bool doIceForming;
     private bool doGroundHumidity;
+    private bool doGroundHumidityMovement;
 
     private float[,] NewWaterHeight;
+    public float[,] NewGroundHumidity;
 
     [SerializeField]
     private float FlowSpeed = 10f;
@@ -24,12 +28,14 @@ public class WaterManager : MonoBehaviour
             doWaterSources = Settings.Instance.doWaterSources;
             doIceForming = Settings.Instance.doIceForming;
             doGroundHumidity = Settings.Instance.doGroundHumidity;
+            doGroundHumidityMovement = Settings.Instance.doGroundHumidityMovement;
         }
         else
         {
             doWaterSources = false;
             doIceForming = false;
             doGroundHumidity = false;
+            doGroundHumidityMovement = false;
         }
     }
     void Start()
@@ -40,6 +46,7 @@ public class WaterManager : MonoBehaviour
 
         // Populate array
         NewWaterHeight = new float[World.Instance.WorldSize.x, World.Instance.WorldSize.y];
+        NewGroundHumidity = new float[World.Instance.WorldSize.x, World.Instance.WorldSize.y];
     }
 
     void Update()
@@ -88,37 +95,23 @@ public class WaterManager : MonoBehaviour
     public void NewFrame()
     {
         // Gets water start values
-        NewWaterHeight = GetWaterHeightArray();
+        GetWaterHeightArray();
+        GetGroundHumidityArray();
 
         for (int y = 0; y < World.Instance.WorldSize.y; y++)
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                if (World.Instance.InBounds(x - 1, y) && World.Instance.Points[x - 1, y].AbsoluteWaterHeight() < World.Instance.Points[x, y].AbsoluteWaterHeight())
-                {
-                    NewWaterHeight[x - 1, y] += World.Instance.Points[x, y].WaterHeight / 8f;
-                    NewWaterHeight[x, y] -= World.Instance.Points[x, y].WaterHeight / 8f;
-                }
-                if (World.Instance.InBounds(x + 1, y) && World.Instance.Points[x + 1, y].AbsoluteWaterHeight() < World.Instance.Points[x, y].AbsoluteWaterHeight())
-                {
-                    NewWaterHeight[x + 1, y] += World.Instance.Points[x, y].WaterHeight / 8f;
-                    NewWaterHeight[x, y] -= World.Instance.Points[x, y].WaterHeight / 8f;
-                }
-                if (World.Instance.InBounds(x, y - 1) && World.Instance.Points[x, y - 1].AbsoluteWaterHeight() < World.Instance.Points[x, y].AbsoluteWaterHeight())
-                {
-                    NewWaterHeight[x, y - 1] += World.Instance.Points[x, y].WaterHeight / 8f;
-                    NewWaterHeight[x, y] -= World.Instance.Points[x, y].WaterHeight / 8f;
-                }
-                if (World.Instance.InBounds(x, y + 1) && World.Instance.Points[x, y + 1].AbsoluteWaterHeight() < World.Instance.Points[x, y].AbsoluteWaterHeight())
-                {
-                    NewWaterHeight[x, y + 1] += World.Instance.Points[x, y].WaterHeight / 8f;
-                    NewWaterHeight[x, y] -= World.Instance.Points[x, y].WaterHeight / 8f;
-                }
+
+                CalculateWaterFluidPoint(x, y);
+
+                if (doGroundHumidityMovement)
+                    CalculateGroundFluidPoint(x, y);
 
                 if (doIceForming)
                 {
                     NewWaterHeight[x, y] -= CalculateGndHumidity(World.Instance.Points[x, y]);
-                    World.Instance.Points[x, y].GroundHumidity += CalculateGndHumidity(World.Instance.Points[x, y]);
+                    NewGroundHumidity[x, y] += CalculateGndHumidity(World.Instance.Points[x, y]);
                 }
 
                 if (doGroundHumidity)
@@ -130,7 +123,8 @@ public class WaterManager : MonoBehaviour
         }
 
         // Sets water height values
-        SetWaterHeightArray(NewWaterHeight);
+        SetWaterHeightArray();
+        SetGroundHumidityArray();
     }
 
     private float CalculateIce(Point point)
@@ -151,27 +145,96 @@ public class WaterManager : MonoBehaviour
         return 0;
     }
 
-    public float[,] GetWaterHeightArray()
+    private void CalculateWaterFluidPoint(int x, int y)
     {
-        float[,] Waterheight = new float[World.Instance.WorldSize.x, World.Instance.WorldSize.y];
-        for (int y = 0; y < World.Instance.WorldSize.y; y++)
+        Point point = World.Instance.Points[x, y];
+        if (World.Instance.InBounds(x - 1, y) && World.Instance.Points[x - 1, y].AbsoluteWaterHeight() < point.AbsoluteWaterHeight())
         {
-            for (int x = 0; x < World.Instance.WorldSize.x; x++)
-            {
-                Waterheight[x, y] = World.Instance.Points[x, y].WaterHeight;
-            }
+            NewWaterHeight[x - 1, y] += point.WaterHeight / (8f);
+            NewWaterHeight[x, y] -= point.WaterHeight / (8f);
         }
-
-        return Waterheight;
+        if (World.Instance.InBounds(x + 1, y) && World.Instance.Points[x + 1, y].AbsoluteWaterHeight() < point.AbsoluteWaterHeight())
+        {
+            NewWaterHeight[x + 1, y] += point.WaterHeight / (8f);
+            NewWaterHeight[x, y] -= point.WaterHeight / (8f);
+        }
+        if (World.Instance.InBounds(x, y - 1) && World.Instance.Points[x, y - 1].AbsoluteWaterHeight() < point.AbsoluteWaterHeight())
+        {
+            NewWaterHeight[x, y - 1] += point.WaterHeight / (8f);
+            NewWaterHeight[x, y] -= point.WaterHeight / (8f);
+        }
+        if (World.Instance.InBounds(x, y + 1) && World.Instance.Points[x, y + 1].AbsoluteWaterHeight() < point.AbsoluteWaterHeight())
+        {
+            NewWaterHeight[x, y + 1] += point.WaterHeight / (8f);
+            NewWaterHeight[x, y] -= point.WaterHeight / (8f);
+        }
     }
 
-    public void SetWaterHeightArray(float[,] Waterheight)
+    private void CalculateGroundFluidPoint(int x, int y)
+    {
+        Point point = World.Instance.Points[x, y];
+        if (World.Instance.InBounds(x - 1, y) && World.Instance.Points[x - 1, y].GroundHumidity < point.GroundHumidity)
+        {
+            NewGroundHumidity[x - 1, y] += point.GroundHumidity / (8000f);
+            NewGroundHumidity[x, y] -= point.GroundHumidity / (8000f);
+        }
+        if (World.Instance.InBounds(x + 1, y) && World.Instance.Points[x + 1, y].GroundHumidity < point.GroundHumidity)
+        {
+            NewGroundHumidity[x + 1, y] += point.GroundHumidity / (8000f);
+            NewGroundHumidity[x, y] -= point.GroundHumidity / (8000f);
+        }
+        if (World.Instance.InBounds(x, y - 1) && World.Instance.Points[x, y - 1].GroundHumidity < point.GroundHumidity)
+        {   
+            NewGroundHumidity[x, y - 1] += point.GroundHumidity / (8000f);
+            NewGroundHumidity[x, y] -= point.GroundHumidity / (8000f);
+        }
+        if (World.Instance.InBounds(x, y + 1) && World.Instance.Points[x, y + 1].GroundHumidity < point.GroundHumidity)
+        {
+            NewGroundHumidity[x, y + 1] += point.GroundHumidity / (8000f);
+            NewGroundHumidity[x, y] -= point.GroundHumidity / (8000f);
+        }
+    }
+
+    public void GetWaterHeightArray()
     {
         for (int y = 0; y < World.Instance.WorldSize.y; y++)
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                World.Instance.Points[x, y].WaterHeight = Waterheight[x, y];
+                NewWaterHeight[x, y] = World.Instance.Points[x, y].WaterHeight;
+            }
+        }
+    }
+
+    public void GetGroundHumidityArray()
+    {
+        for (int y = 0; y < World.Instance.WorldSize.y; y++)
+        {
+            for (int x = 0; x < World.Instance.WorldSize.x; x++)
+            {
+                NewGroundHumidity[x, y] = World.Instance.Points[x, y].GroundHumidity;
+            }
+        }
+    }
+
+    public void SetWaterHeightArray()
+    {
+        for (int y = 0; y < World.Instance.WorldSize.y; y++)
+        {
+            for (int x = 0; x < World.Instance.WorldSize.x; x++)
+            {
+                World.Instance.Points[x, y].WaterHeight = NewWaterHeight[x, y];
+            }
+        }
+    }
+
+    public void SetGroundHumidityArray()
+    {
+        for (int y = 0; y < World.Instance.WorldSize.y; y++)
+        {
+            for (int x = 0; x < World.Instance.WorldSize.x; x++)
+            {
+                World.Instance.Points[x, y].GroundHumidity = NewGroundHumidity[x, y];
             }
         }
     }

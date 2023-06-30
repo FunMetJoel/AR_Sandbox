@@ -21,6 +21,8 @@ MonoBehaviour:
   doWeatherCycle: 0
   wheaterEffectsWater: 0
   doIceForming: 1
+  doGroundHumidity: 1
+  doGroundHumidityMovement: 1
   SettingsChangedUpdate: 0
   SettingsChanged:
     m_PersistentCalls:
