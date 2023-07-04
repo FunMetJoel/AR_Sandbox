@@ -64,6 +64,9 @@ public class WaterManager : MonoBehaviour
             NewFrame();
         }
 
+        
+        
+
 
         SourceTime += Time.deltaTime;
         if (doWaterSources && SourceTime >= 1f/100f)
@@ -129,20 +132,18 @@ public class WaterManager : MonoBehaviour
 
     private float CalculateIce(Point point)
     {
-        if(point.Temperature < 0)
-        {
-            return point.WaterHeight * (-point.Temperature / 10000000f) ;
-        }
-        return 0;
+        if (point.Temperature > 0f)
+            return 0;
+
+        return point.WaterHeight * (-point.Temperature / 10000000f) ;
     }
 
     private float CalculateGndHumidity(Point point)
     {
-        if (point.GroundHumidity < 0.03f)
-        {
-            return point.WaterHeight * (1f / (point.GroundHumidity + 0.1f)) / 10000f;
-        }
-        return 0;
+        if (point.GroundHumidity > 0.03f)
+            return 0;
+        
+        return point.WaterHeight * (1f / (point.GroundHumidity + 0.1f)) / 10000f;
     }
 
     private void CalculateWaterFluidPoint(int x, int y)
