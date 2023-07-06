@@ -143,7 +143,7 @@ public class WaterManager : MonoBehaviour
         if (point.GroundHumidity > 0.03f)
             return 0;
         
-        return point.WaterHeight * (1f / (point.GroundHumidity + 0.1f)) / 10000f;
+        return point.WaterHeight * (1f / (point.GroundHumidity + 0.1f)) / 1000f;
     }
 
     private void CalculateWaterFluidPoint(int x, int y)
@@ -176,23 +176,23 @@ public class WaterManager : MonoBehaviour
         Point point = World.Instance.Points[x, y];
         if (World.Instance.InBounds(x - 1, y) && World.Instance.Points[x - 1, y].GroundHumidity < point.GroundHumidity)
         {
-            NewGroundHumidity[x - 1, y] += point.GroundHumidity / (8000f);
-            NewGroundHumidity[x, y] -= point.GroundHumidity / (8000f);
+            NewGroundHumidity[x - 1, y] += point.GroundHumidity / (80000f);
+            NewGroundHumidity[x, y] -= point.GroundHumidity / (80000f);
         }
         if (World.Instance.InBounds(x + 1, y) && World.Instance.Points[x + 1, y].GroundHumidity < point.GroundHumidity)
         {
-            NewGroundHumidity[x + 1, y] += point.GroundHumidity / (8000f);
-            NewGroundHumidity[x, y] -= point.GroundHumidity / (8000f);
+            NewGroundHumidity[x + 1, y] += point.GroundHumidity / (80000f);
+            NewGroundHumidity[x, y] -= point.GroundHumidity / (80000f);
         }
         if (World.Instance.InBounds(x, y - 1) && World.Instance.Points[x, y - 1].GroundHumidity < point.GroundHumidity)
         {   
-            NewGroundHumidity[x, y - 1] += point.GroundHumidity / (8000f);
-            NewGroundHumidity[x, y] -= point.GroundHumidity / (8000f);
+            NewGroundHumidity[x, y - 1] += point.GroundHumidity / (80000f);
+            NewGroundHumidity[x, y] -= point.GroundHumidity / (80000f);
         }
         if (World.Instance.InBounds(x, y + 1) && World.Instance.Points[x, y + 1].GroundHumidity < point.GroundHumidity)
         {
-            NewGroundHumidity[x, y + 1] += point.GroundHumidity / (8000f);
-            NewGroundHumidity[x, y] -= point.GroundHumidity / (8000f);
+            NewGroundHumidity[x, y + 1] += point.GroundHumidity / (80000f);
+            NewGroundHumidity[x, y] -= point.GroundHumidity / (80000f);
         }
     }
 

@@ -55,12 +55,16 @@ public class PlantManager : MonoBehaviour
 
     private float CalculatePlantGroth(Point point)
     {
-        if (point.GroundHumidity == 0)
+        if (point.GroundHumidity <= 0)
             return 0;
 
-        if (point.Temperature <= 0)
-            return 0;
+        //if (point.Temperature <= 0)
+        //return 0;
 
-        return point.GroundHumidity / 10f;
+        if (point.WaterHeight >= 0.1f)
+            return -point.WaterHeight / 100f;
+
+        //Debug.Log(point.GroundHumidity);
+        return point.GroundHumidity / 10000f;
     }
 }

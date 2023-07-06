@@ -36,7 +36,8 @@ public class LandRenderer : MonoBehaviour
         {
             for (int y = 0; y < SizeY; y++)
             {
-                texture.SetPixel(x, y, new Color(World.Instance.Points[x,y].LandHeight, World.Instance.Points[x, y].GroundHumidity / 0.03f, 0, 0));
+                texture.SetPixel(x, y, new Color(World.Instance.Points[x,y].LandHeight, World.Instance.Points[x, y].GroundHumidity / 0.03f, World.Instance.Points[x, y].PlantDensity, 0));
+                //Debug.Log(World.Instance.Points[x,y].PlantDensity);
             }
         }
 
