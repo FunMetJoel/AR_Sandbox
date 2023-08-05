@@ -24,7 +24,7 @@ public class HeightScanner : MonoBehaviour
     {
         if(UseKinect)
         {
-            ushort[] Data = InfraredSourceManager.GetIntencityData();
+            byte[] Data = InfraredSourceManager.GetIntencityData2();
 
             ChangeWorldHeight(KinectHeight(Data));
         }
@@ -45,7 +45,7 @@ public class HeightScanner : MonoBehaviour
         }
     }
 
-    private float[,] KinectHeight(ushort[] KinectData)
+    private float[,] KinectHeight(byte[] KinectData)
     {
         float[,] newHeight = new float[World.Instance.WorldSize.x, World.Instance.WorldSize.y];
 
@@ -53,10 +53,9 @@ public class HeightScanner : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                newHeight[x, y] = Mathf.Clamp(Mathf.RoundToInt( (((float)KinectData[(x * 4 + y * InfraredSourceManager.Size.x * 4)] - MinAndMaxKinectValues.x) / (MinAndMaxKinectValues.y - MinAndMaxKinectValues.x)) * World.Instance.WorldSize.z), 0, World.Instance.WorldSize.z);
+                newHeight[x, y] = Mathf.Clamp( ( (float)KinectData[(x * 2 + y * InfraredSourceManager.Size.x * 2)] - MinAndMaxKinectValues.x) / (MinAndMaxKinectValues.y - MinAndMaxKinectValues.x) , 0f, 1f);
             }
         }
-
         return newHeight;
     }
 

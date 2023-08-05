@@ -9,6 +9,7 @@ public class InfraredSourceManager : MonoBehaviour
     private ushort[] _Data;
     private byte[] _RawData;
     private ushort[] _IntencityData;
+    private byte[] _IntencityData2;
     public Vector2Int Size;
 
     // I'm not sure this makes sense for the Kinect APIs
@@ -20,9 +21,13 @@ public class InfraredSourceManager : MonoBehaviour
         return _Texture;
     }
 
-    public ushort[] GetIntencityData() 
-    { 
-        return _IntencityData; 
+    public ushort[] GetIntencityData()
+    {
+        return _IntencityData;
+    }
+    public byte[] GetIntencityData2()
+    {
+        return _IntencityData2;
     }
 
     void Start()
@@ -36,10 +41,11 @@ public class InfraredSourceManager : MonoBehaviour
             _RawData = new byte[frameDesc.LengthInPixels * 4];
             _Texture = new Texture2D(frameDesc.Width, frameDesc.Height, TextureFormat.BGRA32, false);
             _IntencityData = new ushort[frameDesc.LengthInPixels];
+            _IntencityData2 = new byte[frameDesc.LengthInPixels];
             Size = new Vector2Int(frameDesc.Width, frameDesc.Height);
             if (!_Sensor.IsOpen)
             {
-                _Sensor.Open(); 
+                _Sensor.Open();
             }
         }
     }
@@ -58,6 +64,7 @@ public class InfraredSourceManager : MonoBehaviour
                 foreach (var ir in _Data)
                 {
                     byte intensity = (byte)(ir >> 8);
+                    _IntencityData2[i] = intensity;
                     _IntencityData[i++] = ir;
                     _RawData[index++] = intensity;
                     _RawData[index++] = intensity;
