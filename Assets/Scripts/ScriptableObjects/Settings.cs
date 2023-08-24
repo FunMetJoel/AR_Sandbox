@@ -8,6 +8,9 @@ using UnityEditor;
 public class Settings : SingletonScriptableObject<Settings>
 {
     [Header("General")]
+
+    public int OPS;
+
     [Tooltip("If the land should change")]
     public bool doLandChanges = true;
 

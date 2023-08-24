@@ -743,7 +743,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1260299826
 Transform:
   m_ObjectHideFlags: 0
@@ -929,6 +929,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1800056588}
   - component: {fileID: 1800056589}
+  - component: {fileID: 1800056591}
+  - component: {fileID: 1800056590}
+  - component: {fileID: 1800056592}
   m_Layer: 0
   m_Name: WaterManager
   m_TagString: Untagged
@@ -958,13 +961,55 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1800056587}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd9cc2438e7343341897d4c7d25767c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   FlowSpeed: 100
   DrainWater: 0
+--- !u!114 &1800056590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1800056587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7772afecb02aefb4eb439a8b54d23172, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlowSpeed: 0.001
+  OPS: 0
+--- !u!114 &1800056591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1800056587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ec89081da338444f82aa61e439149ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlowSpeed: 1
+  OPS: 10
+--- !u!114 &1800056592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1800056587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1355a464fd078640b35dcec543cd967, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlowSpeed: 1
+  OPS: 0
 --- !u!1 &1971128437
 GameObject:
   m_ObjectHideFlags: 0
@@ -1147,7 +1192,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c43df836de4c565408198cf050724ea1, type: 2}
+  - {fileID: 2100000, guid: e0385ed51c9bc7e4aad719829878ca09, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca31461c025ead84e8699e17b478d595, type: 3}
   m_Name: Settings
   m_EditorClassIdentifier: 
+  OPS: 100
   doLandChanges: 1
   landMaterial: {fileID: 0}
   waterMaterial: {fileID: 0}
