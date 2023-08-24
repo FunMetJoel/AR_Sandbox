@@ -743,7 +743,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1260299826
 Transform:
   m_ObjectHideFlags: 0
@@ -882,6 +882,7 @@ MonoBehaviour:
   UseKinect: 0
   InfraredSourceManager: {fileID: 2035987586}
   MinAndMaxKinectValues: {x: 0, y: 255}
+  KinectZoom: {x: 1, y: 1}
   Tseed: 4.81
 --- !u!1 &1758903540
 GameObject:
@@ -1146,7 +1147,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e0385ed51c9bc7e4aad719829878ca09, type: 2}
+  - {fileID: 2100000, guid: c43df836de4c565408198cf050724ea1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -20,7 +20,7 @@ MonoBehaviour:
   doWeather: 0
   doWeatherCycle: 0
   wheaterEffectsWater: 0
-  doIceForming: 1
+  doIceForming: 0
   doGroundHumidity: 1
   doGroundHumidityMovement: 1
   SettingsChangedUpdate: 0

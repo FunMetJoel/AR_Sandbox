@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
+using Unity.VisualScripting;
 using UnityEngine;
 using Windows.Kinect;
 
@@ -13,6 +14,7 @@ public class HeightScanner : MonoBehaviour
 
     public InfraredSourceManager InfraredSourceManager;
     public Vector2Int MinAndMaxKinectValues = new Vector2Int(0, 255);
+    public Vector2 KinectZoom = new Vector2(1,1);
 
     [Header("Noise")]
     [SerializeField]
@@ -53,7 +55,9 @@ public class HeightScanner : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                newHeight[x, y] = Mathf.Clamp( ( (float)KinectData[(x * 2 + y * InfraredSourceManager.Size.x * 2)] - MinAndMaxKinectValues.x) / (MinAndMaxKinectValues.y - MinAndMaxKinectValues.x) , 0f, 1f);
+                Vector2 pixelsPerPixel = new Vector2((InfraredSourceManager.Size.x)/World.Instance.WorldSize.x, (InfraredSourceManager.Size.y) / World.Instance.WorldSize.y);
+                
+                newHeight[x, y] = Mathf.Clamp( ( (float)KinectData[(Mathf.RoundToInt(x * pixelsPerPixel.x * KinectZoom.x) + Mathf.RoundToInt(y * InfraredSourceManager.Size.x * pixelsPerPixel.y * KinectZoom.y))] - MinAndMaxKinectValues.x) / (MinAndMaxKinectValues.y - MinAndMaxKinectValues.x) , 0f, 1f);
             }
         }
         return newHeight;

@@ -16,4 +16,4 @@ MonoBehaviour:
   MinMaxScaleKM: {x: -10, y: 10}
   DayTime: 0
   WaterSources:
-  - {x: 26, y: 21, z: 1074}
+  - {x: 113, y: 26, z: 1000}
