@@ -38,6 +38,7 @@ public class Settings : SingletonScriptableObject<Settings>
     public bool doIceForming;
     public bool doGroundHumidity;
     public bool doGroundHumidityMovement;
+    public bool doAirHumidity;
 
 
     [Header("UpdateSettings")]

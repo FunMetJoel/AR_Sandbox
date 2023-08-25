@@ -8,8 +8,6 @@ public class GroundHumiditySpread : MonoBehaviour
 
     [SerializeField]
     private float FlowSpeed = 1f;
-
-    [SerializeField]
     private int OPS;
     private float RunTime;
 

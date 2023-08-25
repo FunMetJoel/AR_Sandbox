@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaterAndGroundHumidity : MonoBehaviour
+public class WaterAndAirHumidity : MonoBehaviour
 {
-    private float[,] NewGroundHumidity;
+    private float[,] NewAirHumidity;
     private float[,] NewWaterHeight;
 
     [SerializeField]
@@ -12,11 +12,11 @@ public class WaterAndGroundHumidity : MonoBehaviour
     private int OPS;
     private float RunTime;
 
-    private bool doGroundHumidity;
+    private bool doAirHumidity;
 
     public void UpdateSettings()
     {
-        doGroundHumidity = Settings.Instance.doGroundHumidity;
+        doAirHumidity = Settings.Instance.doAirHumidity;
         OPS = Settings.Instance.OPS;
     }
 
@@ -29,14 +29,14 @@ public class WaterAndGroundHumidity : MonoBehaviour
 
         // Populate array
         NewWaterHeight = new float[World.Instance.WorldSize.x, World.Instance.WorldSize.y];
-        NewGroundHumidity = new float[World.Instance.WorldSize.x, World.Instance.WorldSize.y];
+        NewAirHumidity = new float[World.Instance.WorldSize.x, World.Instance.WorldSize.y];
     }
 
     // Update is called once per frame
     void Update()
     {
         // Check if water should move
-        if (!doGroundHumidity)
+        if (!doAirHumidity)
             return;
 
         // Moves water each 1sec / OperationsPerSeconds
@@ -52,8 +52,8 @@ public class WaterAndGroundHumidity : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                NewWaterHeight[x, y] -= FlowSpeed*CalculateDeltaGndHumidity(World.Instance.Points[x, y]);
-                NewGroundHumidity[x, y] += FlowSpeed*CalculateDeltaGndHumidity(World.Instance.Points[x, y]);
+                NewWaterHeight[x, y] -= FlowSpeed * CalculateDeltaAirHumidity(World.Instance.Points[x, y]);
+                NewAirHumidity[x, y] += FlowSpeed * CalculateDeltaAirHumidity(World.Instance.Points[x, y]);
             }
         }
 
@@ -67,7 +67,7 @@ public class WaterAndGroundHumidity : MonoBehaviour
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
                 NewWaterHeight[x, y] = World.Instance.Points[x, y].WaterHeight;
-                NewGroundHumidity[x, y] = World.Instance.Points[x, y].GroundHumidity;
+                NewAirHumidity[x, y] = World.Instance.Points[x, y].AirHumidity;
             }
         }
     }
@@ -79,19 +79,19 @@ public class WaterAndGroundHumidity : MonoBehaviour
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
                 World.Instance.Points[x, y].WaterHeight = NewWaterHeight[x, y];
-                World.Instance.Points[x, y].GroundHumidity = NewGroundHumidity[x, y];
+                World.Instance.Points[x, y].AirHumidity = NewAirHumidity[x, y];
             }
         }
     }
 
-    private float CalculateDeltaGndHumidity(Point point)
+    private float CalculateDeltaAirHumidity(Point point)
     {
-        if (point.GroundHumidity > 0.03f)
+        if (point.AirHumidity > 0.03f)
             return 0;
 
-        if (point.GroundHumidity > 0)
-            return point.WaterHeight * (1f / (point.GroundHumidity + 0.1f)) / 1000f - 0.000001f;
+        if (point.AirHumidity > 0)
+            return point.WaterHeight * (1f / (point.AirHumidity + 0.1f)) / 1000f - 0.000001f;
 
-        return point.WaterHeight * (1f / (point.GroundHumidity + 0.1f)) / 1000f;
+        return point.WaterHeight * (1f / (point.AirHumidity + 0.1f)) / 1000f;
     }
 }
