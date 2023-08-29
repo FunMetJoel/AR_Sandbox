@@ -41,6 +41,7 @@ public class Settings : SingletonScriptableObject<Settings>
     public bool doAirHumidity;
     public bool doSunTemp;
     public bool doRadiateToSky;
+    public bool doWind;
 
 
     [Header("UpdateSettings")]
