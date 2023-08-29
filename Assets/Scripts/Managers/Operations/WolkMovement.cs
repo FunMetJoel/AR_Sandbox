@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 
-public class TempAndWind : MonoBehaviour
+public class WolkMovement : MonoBehaviour
 {
-    private Vector2[,] NewWind;
+    private float[,] NewAirHumidity;
 
+    [SerializeField]
+    private float FlowSpeed = 1f;
     private int OPS;
     private float RunTime;
 
@@ -25,7 +28,7 @@ public class TempAndWind : MonoBehaviour
         Settings.Instance.SettingsChanged.AddListener(UpdateSettings);
 
         // Populate array
-        NewWind = new Vector2[World.Instance.WorldSize.x, World.Instance.WorldSize.y];
+        NewAirHumidity = new float[World.Instance.WorldSize.x, World.Instance.WorldSize.y];
     }
 
     // Update is called once per frame
@@ -48,7 +51,7 @@ public class TempAndWind : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                NewWind[x, y] = CalculateDeltaTemp(x, y) * 0.1f;
+                CalculateMovement(x, y);
             }
         }
 
@@ -61,7 +64,7 @@ public class TempAndWind : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                NewWind[x, y] = World.Instance.Points[x, y].Wind;
+                NewAirHumidity[x, y] = World.Instance.Points[x, y].AirHumidity;
             }
         }
     }
@@ -72,40 +75,19 @@ public class TempAndWind : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                World.Instance.Points[x, y].Wind = NewWind[x, y];
+                World.Instance.Points[x, y].AirHumidity = NewAirHumidity[x, y];
             }
         }
     }
 
-    private Vector2 CalculateDeltaTemp(int x, int y)
+    private void CalculateMovement(int x, int y)
     {
-        float dx = 0;
-        float dy = 0;
+        float windX = World.Instance.Points[x, y].Wind.x;
+        float windY = World.Instance.Points[x, y].Wind.y;
 
-
-        //TODO: NOG FIXEN
-
-        // Calculate x
-        if (World.Instance.InBounds(x + 1, y))
+        if (windX > 0)
         {
-            dx = (World.Instance.Points[x, y].Temperature - World.Instance.Points[x + 1, y].Temperature);
+            //NewAirHumidity[x + 1, y] += 
         }
-        if (World.Instance.InBounds(x - 1, y))
-        {
-            dx -= (World.Instance.Points[x, y].Temperature - World.Instance.Points[x - 1, y].Temperature);
-        }
-
-
-        if (World.Instance.InBounds(x, y + 1))
-        {
-            dy = (World.Instance.Points[x, y].Temperature - World.Instance.Points[x, y + 1].Temperature);
-        }
-        if (World.Instance.InBounds(x, y - 1))
-        {
-            dy -= (World.Instance.Points[x, y].Temperature - World.Instance.Points[x, y - 1].Temperature);
-        }
-
-
-        return new Vector2(dx, dy);
     }
 }
