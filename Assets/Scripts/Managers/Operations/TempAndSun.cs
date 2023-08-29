@@ -84,8 +84,8 @@ public class TempAndSun : MonoBehaviour
     private float CalculateDeltaTemp(Point point)
     {
         float delta = SunTemp;
-        delta = delta - (SunTemp * point.AirHumidity * 0.9f);
-        delta = delta - (SunTemp * point.IceHeight * 0.9f);
+        delta = delta - (SunTemp * point.AirHumidity * 1.9f);
+        delta = delta - (SunTemp * point.IceHeight * 1.9f);
 
         return delta;
     }

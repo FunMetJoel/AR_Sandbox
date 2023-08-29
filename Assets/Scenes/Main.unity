@@ -165,6 +165,7 @@ GameObject:
   - component: {fileID: 252745435}
   - component: {fileID: 252745436}
   - component: {fileID: 252745437}
+  - component: {fileID: 252745438}
   m_Layer: 0
   m_Name: TemperatureManager
   m_TagString: Untagged
@@ -216,6 +217,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FlowSpeed: 1
   SunTemp: 100
+--- !u!114 &252745438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252745434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f2372389c6f77c4db4446c48f95bc40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlowSpeed: 1
+  radiationAmount: 75
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
