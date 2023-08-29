@@ -930,10 +930,12 @@ GameObject:
   - component: {fileID: 1800056588}
   - component: {fileID: 1800056589}
   - component: {fileID: 1800056591}
+  - component: {fileID: 1800056596}
   - component: {fileID: 1800056590}
   - component: {fileID: 1800056592}
   - component: {fileID: 1800056593}
   - component: {fileID: 1800056594}
+  - component: {fileID: 1800056595}
   m_Layer: 0
   m_Name: WaterManager
   m_TagString: Untagged
@@ -1032,6 +1034,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c342f45397d3a41409f22d57fe883639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlowSpeed: 1
+--- !u!114 &1800056595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1800056587}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a83c45de993f60e40b38685c37e142f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diffusionRate: 0.1
+  advectionRate: 0.1
+  FlowSpeed: 1
+--- !u!114 &1800056596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1800056587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c608d233dd42f264297cfcc4fd865ccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   FlowSpeed: 1
