@@ -202,7 +202,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doTempMovement: 1
   FlowSpeed: 100
-  DiffusionAmount: 0.001
+  DiffusionAmount: 0.1
 --- !u!114 &252745437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f690ab38fe3f40e4fa09847c59b5e263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FlowSpeed: 1
+  FlowSpeed: 2
   SunTemp: 100
 --- !u!114 &252745438
 MonoBehaviour:
@@ -229,8 +229,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2372389c6f77c4db4446c48f95bc40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FlowSpeed: 1
-  radiationAmount: 75
+  FlowSpeed: 2
+  radiationAmount: 99
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0

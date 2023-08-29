@@ -32,7 +32,7 @@ public class World : SingletonScriptableObject<World>
                 Points[x, y] = new Point();
                 Points[x, y].LandHeight = Mathf.RoundToInt((float)WorldSize.z * Mathf.PerlinNoise(0.01f * x, 0.01f * y));
                 Points[x, y].WaterHeight = 0.05f;
-                Points[x, y].Temperature = (Mathf.PerlinNoise(0.1f * x, 0.1f * y)*120f)-60f;
+                //Points[x, y].Temperature = (Mathf.PerlinNoise(0.1f * x, 0.1f * y)*120f)-60f;
             }
         }
     }
@@ -63,6 +63,7 @@ public class Point
     public float GroundHumidity = 0;
     public float PlantDensity = 0;
     public float Temperature = 0;
+    public Vector2 Wind = new Vector2(0, 0);
     public Vector4 BiomeData = new Vector4(0, 0, 0, 0);
     
     public float AbsoluteWaterHeight()

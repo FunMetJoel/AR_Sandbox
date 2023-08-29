@@ -53,7 +53,7 @@ public class TempAndSpace : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                NewTemp[x, y] -= FlowSpeed * CalculateDeltaTemp(World.Instance.Points[x, y]) * 0.0001f;
+                NewTemp[x, y] -= FlowSpeed * CalculateDeltaTemp(World.Instance.Points[x, y]) * 0.005f;
             }
         }
 

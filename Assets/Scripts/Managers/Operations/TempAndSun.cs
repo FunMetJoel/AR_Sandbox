@@ -52,7 +52,7 @@ public class TempAndSun : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                NewTemp[x, y] += FlowSpeed * CalculateDeltaTemp(World.Instance.Points[x, y]) * 0.0001f;
+                NewTemp[x, y] += FlowSpeed * CalculateDeltaTemp(World.Instance.Points[x, y]) * 0.005f;
             }
         }
 
@@ -84,8 +84,8 @@ public class TempAndSun : MonoBehaviour
     private float CalculateDeltaTemp(Point point)
     {
         float delta = SunTemp;
-        delta = delta - (SunTemp * point.AirHumidity * 1.9f);
-        delta = delta - (SunTemp * point.IceHeight * 1.9f);
+        delta = delta - (SunTemp * point.AirHumidity * 3f);
+        delta = delta - (SunTemp * point.IceHeight * 3f);
 
         return delta;
     }
