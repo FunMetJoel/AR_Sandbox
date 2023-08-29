@@ -64,11 +64,6 @@ public class Point
     public float PlantDensity = 0;
     public float Temperature = 0;
     public Vector4 BiomeData = new Vector4(0, 0, 0, 0);
-
-    [Tooltip("LuchtTemperatuur boven land- of water-oppervlakte in graden Celcius")]
-    public float LuchtTemperatuur = 0;
-
-    public float LuchtVochtigheid = 0;
     
     public float AbsoluteWaterHeight()
     {
