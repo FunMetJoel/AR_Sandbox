@@ -86,12 +86,6 @@ public class WaterAndAirHumidity : MonoBehaviour
 
     private float CalculateDeltaAirHumidity(Point point)
     {
-        if (point.AirHumidity > 0.03f)
-            return 0;
-
-        if (point.AirHumidity > 0)
-            return point.WaterHeight * (1f / (point.AirHumidity + 0.1f)) / 1000f - 0.000001f;
-
         return point.WaterHeight * (1f / (point.AirHumidity + 0.1f)) / 1000f;
     }
 }

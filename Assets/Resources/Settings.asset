@@ -24,7 +24,7 @@ MonoBehaviour:
   doIceForming: 1
   doGroundHumidity: 1
   doGroundHumidityMovement: 1
-  doAirHumidity: 0
+  doAirHumidity: 1
   SettingsChangedUpdate: 0
   SettingsChanged:
     m_PersistentCalls:
