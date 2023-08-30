@@ -59,11 +59,15 @@ public class Point
     public float LandHeight = 0;
     public float WaterHeight = 0;
     public float IceHeight = 0;
-    public float AirHumidity = 0;
     public float GroundHumidity = 0;
     public float PlantDensity = 0;
-    public float Temperature = 0;
-    public Vector2 Wind = new Vector2(0, 0);
+
+    // in de lucht
+    public float[] Temperature = new float[2];
+    public float[] AirHumidity = new float[2];
+    public Vector2[] Wind = new Vector2[2];
+
+
     public Vector4 BiomeData = new Vector4(0, 0, 0, 0);
     
     public float AbsoluteWaterHeight()

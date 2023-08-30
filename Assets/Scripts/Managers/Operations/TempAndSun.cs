@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TempAndSun : MonoBehaviour
 {
-    private float[,] NewTemp;
+    private float[,,] NewTemp;
 
     [SerializeField]
     private float FlowSpeed = 1f;
@@ -29,7 +29,7 @@ public class TempAndSun : MonoBehaviour
         Settings.Instance.SettingsChanged.AddListener(UpdateSettings);
 
         // Populate array
-        NewTemp = new float[World.Instance.WorldSize.x, World.Instance.WorldSize.y];
+        NewTemp = new float[World.Instance.WorldSize.x, World.Instance.WorldSize.y,2];
     }
 
     // Update is called once per frame
@@ -52,7 +52,8 @@ public class TempAndSun : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                NewTemp[x, y] += FlowSpeed * CalculateDeltaTemp(World.Instance.Points[x, y]) * 0.005f;
+                NewTemp[x, y, 0] += FlowSpeed * CalculateDeltaTemp(World.Instance.Points[x, y])[0] * 0.005f;
+                NewTemp[x, y, 1] += FlowSpeed * CalculateDeltaTemp(World.Instance.Points[x, y])[1] * 0.005f;
             }
         }
 
@@ -65,7 +66,8 @@ public class TempAndSun : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                NewTemp[x, y] = World.Instance.Points[x, y].Temperature;
+                NewTemp[x, y, 0] = World.Instance.Points[x, y].Temperature[0];
+                NewTemp[x, y, 1] = World.Instance.Points[x, y].Temperature[1];
             }
         }
     }
@@ -76,16 +78,20 @@ public class TempAndSun : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                World.Instance.Points[x, y].Temperature = NewTemp[x, y];
+                World.Instance.Points[x, y].Temperature[0] = NewTemp[x, y, 0];
+                World.Instance.Points[x, y].Temperature[1] = NewTemp[x, y, 1];
             }
         }
     }
 
-    private float CalculateDeltaTemp(Point point)
+    private float[] CalculateDeltaTemp(Point point)
     {
-        float delta = SunTemp;
-        delta = delta - (SunTemp * point.AirHumidity * 3f);
-        delta = delta - (SunTemp * point.IceHeight * 3f);
+        float[] delta = new float[2];
+        float opneem = 0.5f;
+        float T = SunTemp;
+        delta[1] = T * opneem;
+        T = T - T * point.AirHumidity[1] * 3f;
+        delta[0] = T * opneem;
 
         return delta;
     }

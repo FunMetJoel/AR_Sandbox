@@ -37,7 +37,7 @@ public class WolkenRenderer : MonoBehaviour
         {
             for (int y = 0; y < SizeY; y++)
             {
-                texture.SetPixel(x, y, new Color(World.Instance.Points[x, y].AirHumidity, 0, 0, 1));
+                texture.SetPixel(x, y, new Color(World.Instance.Points[x, y].AirHumidity[1], 0, 0, 1));
             }
         }
 

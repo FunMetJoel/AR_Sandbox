@@ -132,10 +132,10 @@ public class WaterManager : MonoBehaviour
 
     private float CalculateIce(Point point)
     {
-        if (point.Temperature > 0f)
+        if (point.Temperature[0] > 0f)
             return 0;
 
-        return point.WaterHeight * (-point.Temperature / 10000000f) ;
+        return point.WaterHeight * (-point.Temperature[0] / 10000000f) ;
     }
 
     private float CalculateGndHumidity(Point point)

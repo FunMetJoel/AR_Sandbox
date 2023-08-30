@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class WolkMovement : MonoBehaviour
 {
-    private float[,] NewAirHumidity;
+    private float[,,] NewAirHumidity;
 
     [SerializeField]
     private float FlowSpeed = 1f;
@@ -28,7 +28,7 @@ public class WolkMovement : MonoBehaviour
         Settings.Instance.SettingsChanged.AddListener(UpdateSettings);
 
         // Populate array
-        NewAirHumidity = new float[World.Instance.WorldSize.x, World.Instance.WorldSize.y];
+        NewAirHumidity = new float[World.Instance.WorldSize.x, World.Instance.WorldSize.y, 2];
     }
 
     // Update is called once per frame
@@ -64,7 +64,8 @@ public class WolkMovement : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                NewAirHumidity[x, y] = World.Instance.Points[x, y].AirHumidity;
+                NewAirHumidity[x, y, 0] = World.Instance.Points[x, y].AirHumidity[0];
+                NewAirHumidity[x, y, 1] = World.Instance.Points[x, y].AirHumidity[1];
             }
         }
     }
@@ -75,19 +76,14 @@ public class WolkMovement : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                World.Instance.Points[x, y].AirHumidity = NewAirHumidity[x, y];
+                World.Instance.Points[x, y].AirHumidity[0] = NewAirHumidity[x, y, 0];
+                World.Instance.Points[x, y].AirHumidity[1] = NewAirHumidity[x, y, 1];
             }
         }
     }
 
     private void CalculateMovement(int x, int y)
     {
-        float windX = World.Instance.Points[x, y].Wind.x;
-        float windY = World.Instance.Points[x, y].Wind.y;
-
-        if (windX > 0)
-        {
-            //NewAirHumidity[x + 1, y] += 
-        }
+        Vector2[] wind = World.Instance.Points[x, y].Wind;
     }
 }

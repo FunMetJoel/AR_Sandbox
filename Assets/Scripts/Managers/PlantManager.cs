@@ -25,10 +25,6 @@ public class PlantManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Check if water should move
-        if (!true)
-            return;
-
         // Moves water each sec/flowspeed
         RunTime += Time.deltaTime * FrameFrequency;
         if (RunTime >= 1)

@@ -11,14 +11,14 @@ public class TemperatureManager : MonoBehaviour
     public float FlowSpeed = 10f;
     private float RunTime;
 
-    private float[,] NewTemp;
+    private float[,,] NewTemp;
 
     public float DiffusionAmount;
 
     // Start is called before the first frame update
     void Start()
     {
-        NewTemp = new float[World.Instance.WorldSize.x, World.Instance.WorldSize.y];
+        NewTemp = new float[World.Instance.WorldSize.x, World.Instance.WorldSize.y, 2];
     }
 
     // Update is called once per frame
@@ -36,7 +36,8 @@ public class TemperatureManager : MonoBehaviour
                 {
                     for (int x = 0; x < World.Instance.WorldSize.x; x++)
                     {
-                        NewTemp[x, y] = World.Instance.Points[x, y].Temperature;
+                        NewTemp[x, y, 0] = World.Instance.Points[x, y].Temperature[0];
+                        NewTemp[x, y, 1] = World.Instance.Points[x, y].Temperature[1];
                     }
                 }
 
@@ -45,34 +46,37 @@ public class TemperatureManager : MonoBehaviour
         }
     }
 
-    private float[,] Diffuse(float[,] temp)
+    private float[,,] Diffuse(float[,,] temp)
     {
-        float[,] newTempArr = temp;
+        float[,,] newTempArr = temp;
 
         for (int y = 0; y < World.Instance.WorldSize.y; y++)
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                float newTemp = temp[x, y];
-                if(World.Instance.InBounds(x-1,y)) newTemp += DiffusionAmount * temp[x-1, y];
-                if(World.Instance.InBounds(x+1,y)) newTemp += DiffusionAmount * temp[x+1, y];
-                if (World.Instance.InBounds(x, y-1)) newTemp += DiffusionAmount * temp[x, y-1];
-                if (World.Instance.InBounds(x, y+1)) newTemp += DiffusionAmount * temp[x, y+1];
+                for(int i = 0; i < 2; i++)
+                {
+                    float newTemp = temp[x, y, i];
+                    if (World.Instance.InBounds(x - 1, y)) newTemp += DiffusionAmount * temp[x - 1, y, i];
+                    if (World.Instance.InBounds(x + 1, y)) newTemp += DiffusionAmount * temp[x + 1, y, i];
+                    if (World.Instance.InBounds(x, y - 1)) newTemp += DiffusionAmount * temp[x, y - 1, i];
+                    if (World.Instance.InBounds(x, y + 1)) newTemp += DiffusionAmount * temp[x, y + 1, i];
 
-                newTempArr[x, y] = newTemp / (1 + (4 * DiffusionAmount));
+                    newTempArr[x, y, i] = newTemp / (1 + (4 * DiffusionAmount));
+                }
             }
         }
 
         return newTempArr;
     }
 
-    private void UpdateTemp(float[,] newTemp)
+    private void UpdateTemp(float[,,] newTemp)
     {
         for (int y = 0; y < World.Instance.WorldSize.y; y++)
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                World.Instance.Points[x, y].Temperature = newTemp[x, y];
+                World.Instance.Points[x, y].Temperature[0] = newTemp[x, y, 0];
             }
         }
     }
