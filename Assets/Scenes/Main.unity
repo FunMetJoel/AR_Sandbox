@@ -215,7 +215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doTempMovement: 1
   FlowSpeed: 100
-  DiffusionAmount: 0.1
+  DiffusionAmount: 0.02
 --- !u!114 &252745437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,7 +243,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FlowSpeed: 2
-  radiationAmount: 99
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0

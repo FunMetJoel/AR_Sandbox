@@ -90,7 +90,7 @@ public class TempAndSun : MonoBehaviour
         float opneem = 0.5f;
         float T = SunTemp;
         delta[1] = T * opneem;
-        T = T - T * point.AirHumidity[1] * 3f;
+        T = T - Mathf.Min(T * point.AirHumidity[1] * 300f, T);
         delta[0] = T * opneem;
 
         return delta;

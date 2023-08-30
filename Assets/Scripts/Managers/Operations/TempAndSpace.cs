@@ -13,9 +13,6 @@ public class TempAndSpace : MonoBehaviour
 
     private bool doRadiateToSky;
 
-    [SerializeField]
-    private float radiationAmount = 100f;
-
     public void UpdateSettings()
     {
         doRadiateToSky = Settings.Instance.doRadiateToSky;
@@ -90,7 +87,7 @@ public class TempAndSpace : MonoBehaviour
     {
         float[] delta = new float[2];
         delta[0] = point.Temperature[0];
-        delta[0] = delta[0] - (delta[0] * point.AirHumidity[1] * 0.5f);
+        delta[0] = delta[0] - Mathf.Min((delta[0] * point.AirHumidity[1] * 300f), delta[0]);
         delta[1] = point.Temperature[1];
         return delta;
     }
