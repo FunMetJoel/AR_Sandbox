@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -21,6 +22,15 @@ public class World : SingletonScriptableObject<World>
     [Tooltip("Op welke plekken er een water bron is en hoeveel water ze afgeven")]
     public Vector3Int[] WaterSources;
 
+    [Tooltip("De lijn van de zon")]
+    public Vector3 SunLine;
+
+    public float distanceToSunLine(Vector2 location)
+    {
+        float dist = Mathf.Abs(SunLine.x * location.x - location.y + SunLine.y)/Mathf.Sqrt(SunLine.x * SunLine.x + 1f);
+        return dist;
+    }
+
     public void GenerateWorld()
     {
         Points = new Point[WorldSize.x, WorldSize.y];
@@ -30,6 +40,8 @@ public class World : SingletonScriptableObject<World>
             for (int x = 0; x < WorldSize.x; x++)
             {
                 Points[x, y] = new Point();
+                Points[x, y].x = x;
+                Points[x, y].y = y;
                 Points[x, y].LandHeight = Mathf.RoundToInt((float)WorldSize.z * Mathf.PerlinNoise(0.01f * x, 0.01f * y));
                 Points[x, y].WaterHeight = 0.05f;
                 Points[x, y].Temperature[0] = 0;
@@ -57,6 +69,9 @@ public class World : SingletonScriptableObject<World>
 [System.Serializable]
 public class Point
 {
+    public int x;
+    public int y;
+
     public float LandHeight = 0;
     public float WaterHeight = 0;
     public float IceHeight = 0;

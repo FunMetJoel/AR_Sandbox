@@ -88,7 +88,7 @@ public class TempAndSun : MonoBehaviour
     {
         float[] delta = new float[2];
         float opneem = 0.5f;
-        float T = SunTemp;
+        float T = SunTemp * (Mathf.Max(0, World.Instance.SunLine.z * 255f + (1f - World.Instance.SunLine.z) * (255f - 1f * World.Instance.distanceToSunLine(new Vector2(point.x, point.y)))) / 255f);
         delta[1] = T * opneem;
         T = T - Mathf.Min(T * point.AirHumidity[1] * 300f, T);
         delta[0] = T * opneem;

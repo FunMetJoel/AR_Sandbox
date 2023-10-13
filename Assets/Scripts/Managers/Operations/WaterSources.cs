@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class WaterSources : MonoBehaviour
 {
@@ -45,6 +46,10 @@ public class WaterSources : MonoBehaviour
 
     void OnDrawGizmos()
     {
+        // Draws a blue line from this transform to the target
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(new Vector3(0, 40, 0), new Vector3(10, 40, 10));
+
         if (!doWaterSources)
             return;
 
@@ -53,6 +58,8 @@ public class WaterSources : MonoBehaviour
             Gizmos.color = Color.blue;
             Gizmos.DrawSphere(new Vector3(((-Source.x*1f) / World.Instance.WorldSize.x) * 40 + 20, 0, ((-Source.y * 1f) / World.Instance.WorldSize.y) * 30 + 15), 0.1f);
         }
+
+        
     }
 
     void newFrame()
