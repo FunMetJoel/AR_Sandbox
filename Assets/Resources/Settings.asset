@@ -27,6 +27,8 @@ MonoBehaviour:
   doAirHumidity: 1
   doSunTemp: 1
   doRadiateToSky: 1
+  doWind: 1
+  doWindMoveAir: 1
   SettingsChangedUpdate: 0
   SettingsChanged:
     m_PersistentCalls:

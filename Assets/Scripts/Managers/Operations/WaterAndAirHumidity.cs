@@ -67,7 +67,7 @@ public class WaterAndAirHumidity : MonoBehaviour
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
                 NewWaterHeight[x, y] = World.Instance.Points[x, y].WaterHeight;
-                NewAirHumidity[x, y] = World.Instance.Points[x, y].AirHumidity[1];
+                NewAirHumidity[x, y] = World.Instance.Points[x, y].AirHumidity[0];
             }
         }
     }
@@ -79,13 +79,13 @@ public class WaterAndAirHumidity : MonoBehaviour
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
                 World.Instance.Points[x, y].WaterHeight = NewWaterHeight[x, y];
-                World.Instance.Points[x, y].AirHumidity[1] = NewAirHumidity[x, y];
+                World.Instance.Points[x, y].AirHumidity[0] = NewAirHumidity[x, y];
             }
         }
     }
 
     private float CalculateDeltaAirHumidity(Point point)
     {
-        return point.WaterHeight * (1f / (point.AirHumidity[1] + 0.1f)) / 1000f;
+        return point.WaterHeight * (1f / (point.AirHumidity[0] + 0.1f)) / 1000f;
     }
 }

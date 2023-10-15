@@ -17,3 +17,4 @@ MonoBehaviour:
   DayTime: 0
   WaterSources:
   - {x: 88, y: 80, z: 415}
+  SunLine: {x: 0, y: 75, z: 0}

@@ -42,6 +42,7 @@ public class Settings : SingletonScriptableObject<Settings>
     public bool doSunTemp;
     public bool doRadiateToSky;
     public bool doWind;
+    public bool doWindMoveAir;
 
 
     [Header("UpdateSettings")]

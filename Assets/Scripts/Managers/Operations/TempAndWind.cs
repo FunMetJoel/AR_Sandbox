@@ -48,7 +48,8 @@ public class TempAndWind : MonoBehaviour
         {
             for (int x = 0; x < World.Instance.WorldSize.x; x++)
             {
-                NewWind[x, y, 1] = CalculateWind(x, y) * 0.1f;
+                NewWind[x, y, 0] = CalculateWind(x, y, 0) * 0.1f;
+                NewWind[x, y, 1] = CalculateWind(x, y, 1) * 0.1f;
             }
         }
 
@@ -79,10 +80,12 @@ public class TempAndWind : MonoBehaviour
         }
     }
 
-    private Vector2 CalculateWind(int x, int y)
+    private Vector2 CalculateWind(int x, int y, int z)
     {
         float dx = 0;
         float dy = 0;
+
+        int inverted = z == 0 ? -1 : 1;
 
 
         //TODO: NOG FIXEN
@@ -90,21 +93,21 @@ public class TempAndWind : MonoBehaviour
         // Calculate x
         if (World.Instance.InBounds(x + 1, y))
         {
-            dx = (World.Instance.Points[x, y].Temperature[1] - World.Instance.Points[x + 1, y].Temperature[1]);
+            dx = (inverted)*(World.Instance.Points[x, y].Temperature[z] - World.Instance.Points[x + 1, y].Temperature[z]);
         }
         if (World.Instance.InBounds(x - 1, y))
         {
-            dx -= (World.Instance.Points[x, y].Temperature[1] - World.Instance.Points[x - 1, y].Temperature[1]);
+            dx -= (inverted)*(World.Instance.Points[x, y].Temperature[z] - World.Instance.Points[x - 1, y].Temperature[z]);
         }
 
 
         if (World.Instance.InBounds(x, y + 1))
         {
-            dy = (World.Instance.Points[x, y].Temperature[1] - World.Instance.Points[x, y + 1].Temperature[1]);
+            dy = inverted*(World.Instance.Points[x, y].Temperature[z] - World.Instance.Points[x, y + 1].Temperature[z]);
         }
         if (World.Instance.InBounds(x, y - 1))
         {
-            dy -= (World.Instance.Points[x, y].Temperature[1] - World.Instance.Points[x, y - 1].Temperature[1]);
+            dy -= inverted*(World.Instance.Points[x, y].Temperature[z] - World.Instance.Points[x, y - 1].Temperature[z]);
         }
 
 
