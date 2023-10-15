@@ -10,7 +10,7 @@ using UnityEngine.Events;
 public class World : SingletonScriptableObject<World>
 {
     //adsf
-    public Vector3Int WorldSize = new Vector3Int(40, 30, 255);
+    public Vector3Int WorldSize = new Vector3Int(40, 30, 1);
     public Point[,] Points;
     [Tooltip("Hoe groot de wereld is in km. x is onder en y is boven")]
     public Vector2 MinMaxScaleKM = new Vector2(-10, 10);
@@ -42,7 +42,7 @@ public class World : SingletonScriptableObject<World>
                 Points[x, y] = new Point();
                 Points[x, y].x = x;
                 Points[x, y].y = y;
-                Points[x, y].LandHeight = Mathf.RoundToInt((float)WorldSize.z * Mathf.PerlinNoise(0.01f * x, 0.01f * y));
+                Points[x, y].LandHeight = (float)WorldSize.z * Mathf.PerlinNoise(0.01f * x, 0.01f * y);
                 Points[x, y].WaterHeight = 0.05f;
                 Points[x, y].Temperature[0] = 0;
                 Points[x, y].Temperature[1] = 0;
