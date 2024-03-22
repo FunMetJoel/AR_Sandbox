@@ -14,7 +14,7 @@ public class InfraredSourceManager : MonoBehaviour
 
     // I'm not sure this makes sense for the Kinect APIs
     // Instead, this logic should be in the VIEW
-    private Texture2D _Texture;
+    public Texture2D _Texture;
 
     public Texture2D GetInfraredTexture()
     {
@@ -61,9 +61,10 @@ public class InfraredSourceManager : MonoBehaviour
 
                 int index = 0;
                 int i = 0;
+
                 foreach (var ir in _Data)
                 {
-                    byte intensity = (byte)(ir >> 8);
+                    byte intensity = (byte)(ir >> 8); 
                     _IntencityData2[i] = intensity;
                     _IntencityData[i++] = ir;
                     _RawData[index++] = intensity;

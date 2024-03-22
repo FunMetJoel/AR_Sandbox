@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -311,7 +311,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 15
+  orthographic size: 13.44
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -334,14 +334,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 100, z: 0}
+  m_LocalRotation: {x: 0.7070799, y: -0.006170608, z: 0.006170608, w: 0.7070799}
+  m_LocalPosition: {x: -0.18, y: 100, z: -2.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 1}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,7 +390,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &330830461
 Transform:
   m_ObjectHideFlags: 0
@@ -831,7 +831,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1260299826
 Transform:
   m_ObjectHideFlags: 0
@@ -967,10 +967,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e56e9a06c26b544084f658f9ac0717c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UseKinect: 0
+  UseKinect: 1
   InfraredSourceManager: {fileID: 2035987586}
-  MinAndMaxKinectValues: {x: 0, y: 255}
-  KinectZoom: {x: 1, y: 1}
+  mDepthSourceManager: {fileID: 2035987588}
+  MinAndMaxKinectValues: {x: 0, y: 25}
+  KinectZoom: {x: 1.2, y: 1.2}
+  KinectPan: {x: 168, y: 91}
+  SchaleAndPan: {x: 1, y: -0.4}
+  correction: 1
+  levelMap: {fileID: 2800000, guid: 6f0cae1150c2a264cad7c3d8ab6d91df, type: 3}
+  AntiFlikker: 1
+  SaveAsFile: 0
   Tseed: 4.81
 --- !u!1 &1409855024
 GameObject:
@@ -991,7 +998,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1409855025
 Transform:
   m_ObjectHideFlags: 0
@@ -1106,7 +1113,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1758903540}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1118,7 +1125,7 @@ Transform:
   - {fileID: 1409855025}
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &1800056587
 GameObject:
   m_ObjectHideFlags: 0
@@ -1447,7 +1454,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e0385ed51c9bc7e4aad719829878ca09, type: 2}
+  - {fileID: 2100000, guid: c43df836de4c565408198cf050724ea1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1508,7 +1515,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1997000925
 Transform:
   m_ObjectHideFlags: 0
@@ -1610,6 +1617,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2035987587}
   - component: {fileID: 2035987586}
+  - component: {fileID: 2035987588}
   m_Layer: 0
   m_Name: Kinect
   m_TagString: Untagged
@@ -1630,6 +1638,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Size: {x: 0, y: 0}
+  _Texture: {fileID: 0}
 --- !u!4 &2035987587
 Transform:
   m_ObjectHideFlags: 0
@@ -1645,3 +1654,17 @@ Transform:
   m_Father: {fileID: 1161423223}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2035987588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035987585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cd019cdd7a54604b9ae8091d242d8a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Texture: {fileID: 0}
+  SchaleAndPan: {x: 0.82, y: -1500}

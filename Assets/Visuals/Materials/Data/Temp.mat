@@ -10,7 +10,8 @@ Material:
   m_Name: Temp
   m_Shader: {fileID: -6465566751694194690, guid: 02e3978b3dd28854fb9d03f53f96d1a4,
     type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _MODE_LAGELAAG
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -98,6 +99,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _MODE: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005

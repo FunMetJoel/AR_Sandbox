@@ -56,7 +56,7 @@ public class WaterSources : MonoBehaviour
         foreach (Vector3Int Source in World.Instance.WaterSources)
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(new Vector3(((-Source.x*1f) / World.Instance.WorldSize.x) * 40 + 20, 0, ((-Source.y * 1f) / World.Instance.WorldSize.y) * 30 + 15), 0.1f);
+            Gizmos.DrawSphere(new Vector3(((Source.x*1f) / World.Instance.WorldSize.x) * 40 + 20, 0, ((Source.y * 1f) / World.Instance.WorldSize.y) * 30 + 15), 0.1f);
         }
 
         

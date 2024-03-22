@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca31461c025ead84e8699e17b478d595, type: 3}
   m_Name: Settings
   m_EditorClassIdentifier: 
-  OPS: 100
-  doLandChanges: 1
+  OPS: 10000
+  doLandChanges: 0
   landMaterial: {fileID: 0}
   waterMaterial: {fileID: 0}
   doWaterMovement: 1
@@ -21,14 +21,14 @@ MonoBehaviour:
   doWeather: 0
   doWeatherCycle: 0
   wheaterEffectsWater: 0
-  doIceForming: 1
-  doGroundHumidity: 1
-  doGroundHumidityMovement: 1
-  doAirHumidity: 1
-  doSunTemp: 1
-  doRadiateToSky: 1
-  doWind: 1
-  doWindMoveAir: 1
+  doIceForming: 0
+  doGroundHumidity: 0
+  doGroundHumidityMovement: 0
+  doAirHumidity: 0
+  doSunTemp: 0
+  doRadiateToSky: 0
+  doWind: 0
+  doWindMoveAir: 0
   SettingsChangedUpdate: 0
   SettingsChanged:
     m_PersistentCalls:
