@@ -1,0 +1,58 @@
+#pragma kernel Diffusion
+
+RWTexture2D<float> inputBuffer;
+RWTexture2D<float> outputBuffer;
+
+float diffusionRate;
+int bufferSize;
+
+bool checkIfExist(int2 id)
+{
+    int currLength = id.x + id.y * bufferSize;
+    if (currLength < 0)
+    {
+        return false;
+    }
+    if (currLength > bufferSize)
+    {
+        return false;
+    }
+    return true;
+}
+
+[numthreads(1, 1, 1)]
+void Diffusion(uint3 id : SV_DispatchThreadID)
+{
+    // float sum = inputBuffer[id.xy];
+    // if (checkIfExist(id.xy + int2(1, 0)) == true)
+    // {
+    //     sum += inputBuffer[id.xy + int2(1, 0)];
+    // }else{
+    //     sum += inputBuffer[id.xy];
+    // }
+
+    // if (checkIfExist(id.xy + int2(-1, 0)) == true)
+    // {
+    //     sum += inputBuffer[id.xy + int2(-1, 0)];
+    // }else{
+    //     sum += inputBuffer[id.xy];
+    // }
+
+    // if (checkIfExist(id.xy + int2(0, 1)) == true)
+    // {
+    //     sum += inputBuffer[id.xy + int2(0, 1)];
+    // }else{
+    //     sum += inputBuffer[id.xy];
+    // }
+
+    // if (checkIfExist(id.xy + int2(0, -1)) == true)
+    // {
+    //     sum += inputBuffer[id.xy + int2(0, -1)];
+    // }else{
+    //     sum += inputBuffer[id.xy];
+    // }
+
+    // sum -= 4 * inputBuffer[id.xy];
+    // sum *= diffusionRate;
+    outputBuffer[id.xy] = 0.5;//inputBuffer[id.xy] + sum;
+}

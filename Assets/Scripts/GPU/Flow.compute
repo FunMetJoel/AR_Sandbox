@@ -1,0 +1,28 @@
+#pragma kernel CSMain
+
+// Define the structured buffer
+struct FloatData {
+    float movableDencity;
+    float unmovableDencity;
+    float2 velocity;
+};
+
+RWStructuredBuffer<FloatData> inputBuffer; // Input buffer
+RWStructuredBuffer<FloatData> outputBuffer;    // Output buffer
+
+[numthreads(2, 2, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    // Get the data from the input buffer
+    FloatData data = inputBuffer[id.x + id.y * 2];
+    
+    // Compute the sum
+
+    FloatData outputData;
+    outputData.movableDencity = data.movableDencity;
+    outputData.unmovableDencity = data.unmovableDencity;
+    outputData.velocity = data.velocity;
+    
+    // Write the sum to the output buffer
+    outputBuffer[id.x + id.y * 2] = outputData;
+}

@@ -1,0 +1,15 @@
+#pragma kernel CSMain
+
+// Define the size of the grid
+#define GRID_WIDTH 8
+#define GRID_HEIGHT 16
+
+// Structured buffer to hold the data
+RWStructuredBuffer<float> grid;
+
+[numthreads(8, 8, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    uint index = id.y * GRID_WIDTH + id.x;
+    grid[index] += 1.0;
+}

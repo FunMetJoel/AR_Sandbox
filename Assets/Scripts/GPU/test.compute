@@ -1,0 +1,23 @@
+#pragma kernel CSMain
+
+// Define the structured buffer
+struct FloatData {
+    float value1;
+    float value2;
+};
+
+RWStructuredBuffer<FloatData> inputBuffer; // Input buffer
+RWStructuredBuffer<float> outputBuffer;    // Output buffer
+
+[numthreads(1, 1, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    // Get the data from the input buffer
+    FloatData data = inputBuffer[0];
+    
+    // Compute the sum
+    float sum = data.value1 + data.value2;
+    
+    // Write the sum to the output buffer
+    outputBuffer[0] = sum;
+}
