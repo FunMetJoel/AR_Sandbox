@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class world : MonoBehaviour
 {
-    public Vector2Int size;
+    public Vector2Int size = new Vector2Int(8, 8);
 
     void Awake()
     {

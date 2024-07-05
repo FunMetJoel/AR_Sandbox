@@ -1,58 +1,51 @@
-#pragma kernel Diffusion
+#pragma kernel CSMain
 
-RWTexture2D<float> inputBuffer;
-RWTexture2D<float> outputBuffer;
+RWStructuredBuffer<float> _InputBuffer;
+RWStructuredBuffer<float> _OutputBuffer;
 
-float diffusionRate;
-int bufferSize;
+float _DiffusionRate;
+int _Width;
+int _Height;
 
-bool checkIfExist(int2 id)
+int indexFromId(uint3 id)
 {
-    int currLength = id.x + id.y * bufferSize;
-    if (currLength < 0)
-    {
-        return false;
-    }
-    if (currLength > bufferSize)
-    {
-        return false;
-    }
-    return true;
+    return id.x + _Width * id.y;
 }
 
-[numthreads(1, 1, 1)]
-void Diffusion(uint3 id : SV_DispatchThreadID)
+[numthreads(8, 8, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
 {
-    // float sum = inputBuffer[id.xy];
-    // if (checkIfExist(id.xy + int2(1, 0)) == true)
-    // {
-    //     sum += inputBuffer[id.xy + int2(1, 0)];
-    // }else{
-    //     sum += inputBuffer[id.xy];
-    // }
+    if (id.x > _Width - 1 || id.y > _Height - 1)
+    {
+        return;
+    }
 
-    // if (checkIfExist(id.xy + int2(-1, 0)) == true)
-    // {
-    //     sum += inputBuffer[id.xy + int2(-1, 0)];
-    // }else{
-    //     sum += inputBuffer[id.xy];
-    // }
+    // Calculate diffused value
+    int count = 0;
+    float sum = _InputBuffer[indexFromId(id)];
+    if (id.x > 0)
+    {
+        sum += _InputBuffer[indexFromId(uint3(id.x - 1, id.y, 0))];
+        count++;
+    }
+    if (id.x < _Width - 1)
+    {
+        sum += _InputBuffer[indexFromId(uint3(id.x + 1, id.y, 0))];
+        count++;
+    }
+    if (id.y > 0)
+    {
+        sum += _InputBuffer[indexFromId(uint3(id.x, id.y - 1, 0))];
+        count++;
+    }
+    if (id.y < _Height - 1)
+    {
+        sum += _InputBuffer[indexFromId(uint3(id.x, id.y + 1, 0))];
+        count++;
+    }
 
-    // if (checkIfExist(id.xy + int2(0, 1)) == true)
-    // {
-    //     sum += inputBuffer[id.xy + int2(0, 1)];
-    // }else{
-    //     sum += inputBuffer[id.xy];
-    // }
+    float average = sum / (count + 1);
+    _OutputBuffer[indexFromId(id)] = _InputBuffer[indexFromId(id)] + (_DiffusionRate * (average - _InputBuffer[indexFromId(id)]));
 
-    // if (checkIfExist(id.xy + int2(0, -1)) == true)
-    // {
-    //     sum += inputBuffer[id.xy + int2(0, -1)];
-    // }else{
-    //     sum += inputBuffer[id.xy];
-    // }
-
-    // sum -= 4 * inputBuffer[id.xy];
-    // sum *= diffusionRate;
-    outputBuffer[id.xy] = 0.5;//inputBuffer[id.xy] + sum;
+    // Lef
 }

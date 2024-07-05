@@ -13,33 +13,33 @@ public class diffuse : MonoBehaviour
 
     ComputeBuffer inputBuffer;
     ComputeBuffer outputBuffer;
+    int kernel;
 
-    void Start()
+    void Awake()
     {
-        int bufferlength = 2;
-        inputBuffer = new ComputeBuffer(bufferlength, sizeof(float));
-        outputBuffer = new ComputeBuffer(bufferlength, sizeof(float));
-        float[] testFloats = new float[bufferlength];
-        for (int i = 0; i < bufferlength; i++)
-        {
-            testFloats[i] = 0.5f;
-        }
+        inputBuffer = new ComputeBuffer(layer.world.size.x * layer.world.size.y, sizeof(float));
+        outputBuffer = new ComputeBuffer(layer.world.size.x * layer.world.size.y, sizeof(float));
 
+        kernel = diffuseShader.FindKernel("CSMain");
+    }
 
-        // Set the input buffer to the current layer data
-        inputBuffer.SetData(testFloats);
+    void Update()
+    {
+        // Set the data in the input buffer
+        inputBuffer.SetData(layer.data);
 
-        int kernel = diffuseShader.FindKernel("Diffusion");
-        diffuseShader.SetFloat("diffusionRate", diffusionRate);
-        diffuseShader.SetBuffer(kernel, "inputBuffer", inputBuffer);
-        diffuseShader.SetBuffer(kernel, "outputBuffer", outputBuffer);
-        diffuseShader.Dispatch(kernel, 1, 1, 1);
+        diffuseShader.SetFloat("_DiffusionRate", diffusionRate * Time.deltaTime);
+        diffuseShader.SetInt("_Width", layer.world.size.x);
+        diffuseShader.SetInt("_Height", layer.world.size.y);
+        diffuseShader.SetBuffer(kernel, "_InputBuffer", inputBuffer);
+        diffuseShader.SetBuffer(kernel, "_OutputBuffer", outputBuffer);
+        diffuseShader.Dispatch(kernel, Mathf.CeilToInt(layer.world.size.x / 8.0f), Mathf.CeilToInt(layer.world.size.y / 8.0f), 1);
 
         // Get the data from the output buffer
-        outputBuffer.GetData(layer.LayerData);
-
-        // Release the buffers
-        inputBuffer.Release();
-        outputBuffer.Release();
+        outputBuffer.GetData(layer.data);
     }
+
+    private void OnDestroy() {
+		outputBuffer.Release();
+	}
 }

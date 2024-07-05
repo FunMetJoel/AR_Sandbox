@@ -1,0 +1,21 @@
+﻿#pragma kernel CSMain
+
+RWStructuredBuffer<float> _Positions;
+
+int _CubesPerAxis = 8;
+
+int indexFromId(uint3 id)
+{
+    return id.x + _CubesPerAxis * id.y;
+}
+
+[numthreads(8,8,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    if (id.x > _CubesPerAxis - 1 || id.y > _CubesPerAxis - 1)
+    {
+        return;
+    }
+
+    _Positions[indexFromId(id)] = 0.5;
+}
